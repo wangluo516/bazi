@@ -921,23 +921,310 @@
 
         let sanhe = false; // 三合成功标记
 
-        // 查找三合组合
         for (var i = 0; i < 2; i++) {
           if (yuezhu.branch.triad[i].name == nian_zhi.dizhi) {
             count = i;
           }
         }
-
-        // 这里省略部分复杂的判断逻辑...
-
-        // 简化版本，只保留结果判断
-        if (sanhe) {
-          hehuaLog.push("地支三合局成功");
-          return 1;
-        } else {
-          hehuaLog.push("地支三合局失败");
-          return 0;
+        if (count == 2) {
+          for (var i = 0; i < 2; i++) {
+            if (rizhu.branch.triad[i].name == yue_zhi.dizhi) {
+              count = i;
+            }
+          }
+          if (count == 2) {
+            hehuaLog.push("地支三合组合失败");
+            return 0;
+          } else if (count == 1) {
+            if (rizhu.branch.triad[0].name == shi_zhi.dizhi) {
+              hehuaLog.push("以日支为中心的地支三合组合成功");
+              rizhi_sanhe = true;
+            }
+          } else if (count == 0) {
+            if (rizhu.branch.triad[1].name == shi_zhi.dizhi) {
+              hehuaLog.push("以日支为中心的地支三合组合成功");
+              rizhi_sanhe = true;
+            }
+          }
+        } else if (count == 0) {
+          if (yuezhu.branch.triad[1].name == ri_zhi.dizhi) {
+            hehuaLog.push("以月支为中心的地支三合组合成功");
+            yuezhi_sanhe = true;
+          }
+        } else if (count == 1) {
+          if (yuezhu.branch.triad[0].name == ri_zhi.dizhi) {
+            hehuaLog.push("以月支为中心的地支三合组合成功");
+            yuezhi_sanhe = true;
+          }
         }
+
+        // 上面是组合判断，下面是规则判断
+        if (yuezhi_sanhe == true) {
+          // 条件1
+          if (
+            shi_zhi.wuxing == yue_zhi.kewo ||
+            shi_zhi.wuxing == nian_zhi.kewo ||
+            shi_zhi.wuxing == ri_zhi.kewo
+          ) {
+            hehuaLog.push("时支五行克制月支五行或年支五行或日支五行");
+            tiaojian_1 = false;
+          } else if (
+            dizhilist[shi_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.woxing == nian_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.woxing == ri_zhi.dizhi
+          ) {
+            hehuaLog.push("时支刑年月日支");
+            tiaojian_1 = false;
+          } else if (
+            dizhilist[shi_zhi.dizhi]?.chong == yue_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.chong == nian_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.chong == ri_zhi.dizhi
+          ) {
+            hehuaLog.push("时支冲年月日支");
+            tiaojian_1 = false;
+          } else if (
+            dizhilist[shi_zhi.dizhi]?.hai == yue_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.hai == nian_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.hai == ri_zhi.dizhi
+          ) {
+            hehuaLog.push("时支害年月日支");
+            tiaojian_1 = false;
+          } else {
+            hehuaLog.push("时支不克制月支不刑不冲不害年月日支");
+            tiaojian_1 = true;
+          }
+
+          // 条件2
+          if (yue_zhi.wuxing == yuezhu.branch.triadE5.name) {
+            hehuaLog.push("月支五行与合化后五行相同");
+            tiaojian_2 = true;
+          } else {
+            hehuaLog.push("时支五行与月支、年支、日支五行不同");
+            tiaojian_2 = false;
+          }
+
+          // 条件3
+          let countcanggan = 3; // 藏干最多三个设置为3避免有误
+          if (
+            yuezhu.branch.triadE5.name == nian_gan.wuxing ||
+            yuezhu.branch.triadE5.name == yue_gan.wuxing ||
+            yuezhu.branch.triadE5.name == ri_gan.wuxing ||
+            yuezhu.branch.triadE5.name == shi_gan.wuxing
+          ) {
+            hehuaLog.push("合化后五行与天干五行有相同");
+            for (var i = 0; i < shi_zhi.canggan.length; i++) {
+              if (yuezhu.branch.triadE5.name == shi_zhi.score[i][1]) {
+                countcanggan = i;
+              }
+            }
+            if (countcanggan == 3) {
+              hehuaLog.push("合化后五行与剩余地支藏干五行无相同");
+              tiaojian_3 = false;
+            } else {
+              let cangganmeiyoukezhi = true;
+              hehuaLog.push("合化后五行与剩余地支藏干五行有相同");
+              for (var i = 0; i < shi_zhi.canggan.length; i++) {
+                if (i == countcanggan) {
+                  continue;
+                }
+                if (
+                  yuezhu.branch.triadE5.counteracting().name ==
+                  shi_zhi.score[i][1]
+                ) {
+                  hehuaLog.push("藏干的五行中有克制合化后五行的");
+                  tiaojian_3 = false;
+                  cangganmeiyoukezhi = false;
+                  break;
+                }
+              }
+              if (
+                nian_gan.woke == yuezhu.branch.triadE5.name ||
+                yue_gan.woke == yuezhu.branch.triadE5.name ||
+                ri_gan.woke == yuezhu.branch.triadE5.name ||
+                shi_gan.woke == yuezhu.branch.triadE5.name
+              ) {
+                hehuaLog.push("天干的五行中有克制合化后五行的");
+                tiaojian_3 = false;
+              } else if (cangganmeiyoukezhi == true) {
+                hehuaLog.push("藏干和天干的五行中没有克制合化后五行的");
+                tiaojian_3 = true;
+              }
+            }
+          }
+          if (tiaojian_1 == true && tiaojian_2 == true && tiaojian_3 == true) {
+            hehuaLog.push("三个条件都成立，合化成功");
+            sanhe = true;
+
+            nian_zhi.wuxing = yuezhu.branch.triadE5.name;
+            nian_zhi.kewo =
+              wuxinglist[yuezhu.branch.triadE5.name]?.counteracting;
+            nian_zhi.woke = wuxinglist[yuezhu.branch.triadE5.name]?.overcoming;
+            nian_zhi.wosheng =
+              wuxinglist[yuezhu.branch.triadE5.name]?.generating;
+            nian_zhi.shengwo =
+              wuxinglist[yuezhu.branch.triadE5.name]?.weakening;
+            for (var i = 0; i < nian_zhi.canggan.length; i++) {
+              nian_zhi.score[i][1] = yuezhu.branch.triadE5.name;
+              // 年支藏干的阴阳合化后没有意义了，算分时也不考虑，所以在此处不写score[i][2]
+            }
+            nian_zhi.hehua = 1;
+            yue_zhi.wuxing = yuezhu.branch.triadE5.name;
+            yue_zhi.kewo =
+              wuxinglist[yuezhu.branch.triadE5.name]?.counteracting;
+            yue_zhi.woke = wuxinglist[yuezhu.branch.triadE5.name]?.overcoming;
+            yue_zhi.wosheng =
+              wuxinglist[yuezhu.branch.triadE5.name]?.generating;
+            yue_zhi.shengwo = wuxinglist[yuezhu.branch.triadE5.name]?.weakening;
+            for (var i = 0; i < yue_zhi.canggan.length; i++) {
+              yue_zhi.score[i][1] = yuezhu.branch.triadE5.name;
+              // 月支藏干的阴阳合化后没有意义了，算分时也不考虑，所以在此处不写score[i][2]
+            }
+            yue_zhi.hehua = 1;
+            shi_zhi.wuxing = yuezhu.branch.triadE5.name;
+            shi_zhi.kewo =
+              wuxinglist[yuezhu.branch.triadE5.name]?.counteracting;
+            shi_zhi.woke = wuxinglist[yuezhu.branch.triadE5.name]?.overcoming;
+            shi_zhi.wosheng =
+              wuxinglist[yuezhu.branch.triadE5.name]?.generating;
+            shi_zhi.shengwo = wuxinglist[yuezhu.branch.triadE5.name]?.weakening;
+            for (var i = 0; i < shi_zhi.canggan.length; i++) {
+              shi_zhi.score[i][1] = yuezhu.branch.triadE5.name;
+              // 时支藏干的阴阳合化后没有意义了，算分时也不考虑，所以在此处不写score[i][2]
+            }
+            shi_zhi.hehua = 1;
+
+            return 1;
+          }
+        }
+        if (sanhe == false && rizhi_sanhe == true) {
+          // 条件1
+          if (
+            nian_zhi.wuxing == yue_zhi.kewo ||
+            nian_zhi.wuxing == ri_zhi.kewo ||
+            nian_zhi.wuxing == shi_zhi.kewo
+          ) {
+            hehuaLog.push("年支五行克制月支、日支、时支五行");
+            tiaojian_1 = false;
+          } else if (
+            dizhilist[nian_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.woxing == ri_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.woxing == shi_zhi.dizhi
+          ) {
+            hehuaLog.push("年支刑日月时支");
+            tiaojian_1 = false;
+          } else if (
+            dizhilist[nian_zhi.dizhi]?.chong == yue_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.chong == ri_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.chong == shi_zhi.dizhi
+          ) {
+            hehuaLog.push("年支冲日月时支");
+            tiaojian_1 = false;
+          } else if (
+            dizhilist[nian_zhi.dizhi]?.hai == yue_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.hai == ri_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.hai == shi_zhi.dizhi
+          ) {
+            hehuaLog.push("年支害日月时支");
+            tiaojian_1 = false;
+          } else {
+            hehuaLog.push("年支不克制月支不刑不冲不害日月时支");
+            tiaojian_1 = true;
+          }
+          // 条件2
+          if (yue_zhi.wuxing == rizhu.branch.triadE5.name) {
+            hehuaLog.push("月支五行与合化后五行相同");
+            tiaojian_2 = true;
+          } else {
+            hehuaLog.push("月支五行与合化后五行不同");
+            tiaojian_2 = false;
+          }
+
+          // 条件3
+          let countcanggan = 3;
+          if (
+            rizhu.branch.triadE5.name == nian_gan.wuxing ||
+            rizhu.branch.triadE5.name == yue_gan.wuxing ||
+            rizhu.branch.triadE5.name == ri_gan.wuxing ||
+            rizhu.branch.triadE5.name == shi_gan.wuxing
+          ) {
+            hehuaLog.push("合化后五行与天干五行有相同");
+            for (var i = 0; i < nian_zhi.canggan.length; i++) {
+              if (rizhu.branch.triadE5.name == nian_zhi.score[i][1]) {
+                countcanggan = i;
+              }
+            }
+            if (countcanggan == 3) {
+              hehuaLog.push("合化后五行与剩余地支藏干五行无相同");
+              tiaojian_3 = false;
+            } else {
+              let cangganmeiyoukezhi = true;
+              hehuaLog.push("合化后五行与剩余地支藏干五行有相同");
+              for (var i = 0; i < nian_zhi.canggan.length; i++) {
+                if (i == countcanggan) {
+                  continue;
+                }
+                if (
+                  rizhu.branch.triadE5.counteracting().name ==
+                  nian_zhi.score[i][1]
+                ) {
+                  hehuaLog.push("藏干的五行中有克制合化后五行的");
+                  tiaojian_3 = false;
+                  cangganmeiyoukezhi = false;
+                  break;
+                }
+              }
+              if (
+                nian_gan.woke == rizhu.branch.triadE5.name ||
+                yue_gan.woke == rizhu.branch.triadE5.name ||
+                ri_gan.woke == rizhu.branch.triadE5.name ||
+                shi_gan.woke == rizhu.branch.triadE5.name
+              ) {
+                hehuaLog.push("天干的五行中有克制合化后五行的");
+                tiaojian_3 = false;
+              } else if (cangganmeiyoukezhi == true) {
+                hehuaLog.push("藏干和天干的五行中没有克制合化后五行的");
+                tiaojian_3 = true;
+              }
+            }
+          }
+          if (tiaojian_1 == true && tiaojian_2 == true && tiaojian_3 == true) {
+            hehuaLog.push("三个条件都成立，合化成功");
+            sanhe = true;
+
+            yue_zhi.wuxing = rizhu.branch.triadE5.name;
+            yue_zhi.kewo = wuxinglist[rizhu.branch.triadE5.name]?.counteracting;
+            yue_zhi.woke = wuxinglist[rizhu.branch.triadE5.name]?.overcoming;
+            yue_zhi.wosheng = wuxinglist[rizhu.branch.triadE5.name]?.generating;
+            yue_zhi.shengwo = wuxinglist[rizhu.branch.triadE5.name]?.weakening;
+            for (var i = 0; i < yue_zhi.canggan.length; i++) {
+              yue_zhi.score[i][1] = rizhu.branch.triadE5.name;
+              // 月支藏干的阴阳合化后没有意义了，算分时也不考虑，所以在此处不写score[i][2]
+            }
+            yue_zhi.hehua = 1;
+            ri_zhi.wuxing = rizhu.branch.triadE5.name;
+            ri_zhi.kewo = wuxinglist[rizhu.branch.triadE5.name]?.counteracting;
+            ri_zhi.woke = wuxinglist[rizhu.branch.triadE5.name]?.overcoming;
+            ri_zhi.wosheng = wuxinglist[rizhu.branch.triadE5.name]?.generating;
+            ri_zhi.shengwo = wuxinglist[rizhu.branch.triadE5.name]?.weakening;
+            for (var i = 0; i < ri_zhi.canggan.length; i++) {
+              ri_zhi.score[i][1] = rizhu.branch.triadE5.name;
+              // 日支藏干的阴阳合化后没有意义了，算分时也不考虑，所以在此处不写score[i][2]
+            }
+            ri_zhi.hehua = 1;
+            shi_zhi.wuxing = rizhu.branch.triadE5.name;
+            shi_zhi.kewo = wuxinglist[rizhu.branch.triadE5.name]?.counteracting;
+            shi_zhi.woke = wuxinglist[rizhu.branch.triadE5.name]?.overcoming;
+            shi_zhi.wosheng = wuxinglist[rizhu.branch.triadE5.name]?.generating;
+            shi_zhi.shengwo = wuxinglist[rizhu.branch.triadE5.name]?.weakening;
+            for (var i = 0; i < shi_zhi.canggan.length; i++) {
+              shi_zhi.score[i][1] = rizhu.branch.triadE5.name;
+              // 时支藏干的阴阳合化后没有意义了，算分时也不考虑，所以在此处不写score[i][2]
+            }
+            shi_zhi.hehua = 1;
+            return 1;
+          }
+        }
+        return 0;
       }
 
       // 地支三会方判断
@@ -949,14 +1236,211 @@
 
         let tiaojian_1 = false;
 
-        // 查找三会方组合
-        // 省略部分复杂的判断逻辑...
+        for (var i = 0; i < 2; i++) {
+          if (yue_zhi.sanhuifang[i] == nian_zhi.dizhi) {
+            count = i;
+          }
+        }
+        if (count == 0) {
+          if (yue_zhi.sanhuifang[1] == ri_zhi.dizhi) {
+            yuezhi_sanhui = true;
+            hehuaLog.push("年月日支三会方组合成功");
+          }
+        } else if (count == 1) {
+          if (yue_zhi.sanhuifang[0] == ri_zhi.dizhi) {
+            yuezhi_sanhui = true;
+            hehuaLog.push("年月日支三会方组合成功");
+          }
+        } else if (count == 2) {
+          for (var i = 0; i < 2; i++) {
+            if (ri_zhi.sanhuifang[i] == yue_zhi.dizhi) {
+              count = i;
+            }
+          }
+          if (count == 0) {
+            if (ri_zhi.sanhuifang[1] == shi_zhi.dizhi) {
+              rizhi_sanhui = true;
+              hehuaLog.push("月日时支三会方组合成功");
+            }
+          } else if (count == 1) {
+            if (ri_zhi.sanhuifang[0] == shi_zhi.dizhi) {
+              rizhi_sanhui = true;
+              hehuaLog.push("月日时支三会方组合成功");
+            }
+          }
+        }
 
-        if (yuezhi_sanhui || rizhi_sanhui) {
-          hehuaLog.push("地支三会方成功");
-          return 1;
+        if (yuezhi_sanhui == true) {
+          if (
+            shi_zhi.wuxing == yue_zhi.kewo ||
+            shi_zhi.wuxing == nian_zhi.kewo ||
+            shi_zhi.wuxing == ri_zhi.kewo
+          ) {
+            hehuaLog.push("时支五行克制月支五行或年支五行或日支五行");
+            tiaojian_1 = false;
+          } else if (
+            dizhilist[shi_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.woxing == nian_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.woxing == ri_zhi.dizhi
+          ) {
+            hehuaLog.push("时支刑年月日支");
+            tiaojian_1 = false;
+          } else if (
+            dizhilist[shi_zhi.dizhi]?.chong == yue_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.chong == nian_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.chong == ri_zhi.dizhi
+          ) {
+            hehuaLog.push("时支冲年月日支");
+            tiaojian_1 = false;
+          } else if (
+            dizhilist[shi_zhi.dizhi]?.hai == yue_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.hai == nian_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.hai == ri_zhi.dizhi
+          ) {
+            hehuaLog.push("时支害年月日支");
+            tiaojian_1 = false;
+          } else {
+            hehuaLog.push("时支不克制月支不刑不冲不害年月日支");
+            tiaojian_1 = true;
+          }
+
+          if (tiaojian_1 == true) {
+            hehuaLog.push("地支三会方成功");
+
+            nian_zhi.wuxing = yue_zhi.sanhuifang.sanhufang_e5;
+            nian_zhi.kewo =
+              wuxinglist[yue_zhi.sanhuifang.sanhufang_e5]?.counteracting;
+            nian_zhi.woke =
+              wuxinglist[yue_zhi.sanhuifang.sanhufang_e5]?.overcoming;
+            nian_zhi.wosheng =
+              wuxinglist[yue_zhi.sanhuifang.sanhufang_e5]?.generating;
+            nian_zhi.shengwo =
+              wuxinglist[yue_zhi.sanhuifang.sanhufang_e5]?.weakening;
+            for (var i = 0; i < nian_zhi.canggan.length; i++) {
+              nian_zhi.score[i][1] = yue_zhi.sanhuifang.sanhufang_e5;
+            }
+            nian_zhi.hehua = 1;
+
+            yue_zhi.wuxing = yue_zhi.sanhuifang.sanhufang_e5;
+            yue_zhi.kewo =
+              wuxinglist[yue_zhi.sanhuifang.sanhufang_e5]?.counteracting;
+            yue_zhi.woke =
+              wuxinglist[yue_zhi.sanhuifang.sanhufang_e5]?.overcoming;
+            yue_zhi.wosheng =
+              wuxinglist[yue_zhi.sanhuifang.sanhufang_e5]?.generating;
+            yue_zhi.shengwo =
+              wuxinglist[yue_zhi.sanhuifang.sanhufang_e5]?.weakening;
+            for (var i = 0; i < yue_zhi.canggan.length; i++) {
+              yue_zhi.score[i][1] = yue_zhi.sanhuifang.sanhufang_e5;
+            }
+            yue_zhi.hehua = 1;
+
+            ri_zhi.wuxing = ri_zhi.sanhuifang.sanhufang_e5;
+            ri_zhi.kewo =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.counteracting;
+            ri_zhi.woke =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.overcoming;
+            ri_zhi.wosheng =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.generating;
+            ri_zhi.shengwo =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.weakening;
+            for (var i = 0; i < ri_zhi.canggan.length; i++) {
+              ri_zhi.score[i][1] = yue_zhi.sanhuifang.sanhufang_e5;
+            }
+            ri_zhi.hehua = 1;
+
+            return 1;
+          } else {
+            hehuaLog.push("地支三会方失败");
+            return 0;
+          }
+        } else if (rizhi_sanhui == true) {
+          // 条件1
+          if (
+            nian_zhi.wuxing == yue_zhi.kewo ||
+            nian_zhi.wuxing == ri_zhi.kewo ||
+            nian_zhi.wuxing == shi_zhi.kewo
+          ) {
+            hehuaLog.push("年支五行克制月支、日支、时支五行");
+            tiaojian_1 = false;
+          } else if (
+            dizhilist[nian_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.woxing == ri_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.woxing == shi_zhi.dizhi
+          ) {
+            hehuaLog.push("年支刑日月时支");
+            tiaojian_1 = false;
+          } else if (
+            dizhilist[nian_zhi.dizhi]?.chong == yue_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.chong == ri_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.chong == shi_zhi.dizhi
+          ) {
+            hehuaLog.push("年支冲日月时支");
+            tiaojian_1 = false;
+          } else if (
+            dizhilist[nian_zhi.dizhi]?.hai == yue_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.hai == ri_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.hai == shi_zhi.dizhi
+          ) {
+            hehuaLog.push("年支害日月时支");
+            tiaojian_1 = false;
+          } else {
+            hehuaLog.push("年支不克制月支不刑不冲不害日月时支");
+            tiaojian_1 = true;
+          }
+
+          if (tiaojian_1 == true) {
+            hehuaLog.push("地支三会方成功");
+
+            shi_zhi.wuxing = ri_zhi.sanhuifang.sanhufang_e5;
+            shi_zhi.kewo =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.counteracting;
+            shi_zhi.woke =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.overcoming;
+            shi_zhi.wosheng =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.generating;
+            shi_zhi.shengwo =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.weakening;
+            for (var i = 0; i < shi_zhi.canggan.length; i++) {
+              shi_zhi.score[i][1] = ri_zhi.sanhuifang.sanhufang_e5;
+            }
+            shi_zhi.hehua = 1;
+
+            ri_zhi.wuxing = ri_zhi.sanhuifang.sanhufang_e5;
+            ri_zhi.kewo =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.counteracting;
+            ri_zhi.woke =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.overcoming;
+            ri_zhi.wosheng =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.generating;
+            ri_zhi.shengwo =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.weakening;
+            for (var i = 0; i < ri_zhi.canggan.length; i++) {
+              ri_zhi.score[i][1] = ri_zhi.sanhuifang.sanhufang_e5;
+            }
+            ri_zhi.hehua = 1;
+
+            yue_zhi.wuxing = ri_zhi.sanhuifang.sanhufang_e5;
+            yue_zhi.kewo =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.counteracting;
+            yue_zhi.woke =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.overcoming;
+            yue_zhi.wosheng =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.generating;
+            yue_zhi.shengwo =
+              wuxinglist[ri_zhi.sanhuifang.sanhufang_e5]?.weakening;
+            for (var i = 0; i < yue_zhi.canggan.length; i++) {
+              yue_zhi.score[i][1] = ri_zhi.sanhuifang.sanhufang_e5;
+            }
+            yue_zhi.hehua = 1;
+
+            return 1;
+          } else {
+            hehuaLog.push("地支三会方失败");
+            return 0;
+          }
         } else {
-          hehuaLog.push("地支三会方失败");
+          hehuaLog.push("地支三会方组合失败");
           return 0;
         }
       }
@@ -967,16 +1451,540 @@
         let yuerihe = false;
         let rishihe = false;
         let nianyuehe = false;
-
+        let yuerihe_jieguo = false;
         // 判断六合组合
-        // 省略部分复杂的判断逻辑...
-
-        if (yuerihe || rishihe || nianyuehe) {
-          hehuaLog.push("地支六合成功");
-          return 1;
+        if (yuezhu.branch.group6.name == ri_zhi.dizhi) {
+          hehuaLog.push("月支日支六合组合成功");
+          yuerihe = true;
         } else {
-          hehuaLog.push("地支六合失败");
-          return 0;
+          if (rizhu.branch.group6.name == shi_zhi.dizhi) {
+            hehuaLog.push("日支时支六合组合成功");
+            rishihe = true;
+          }
+          if (yuezhu.branch.group6.name == nian_zhi.dizhi) {
+            hehuaLog.push("月支年支六合组合成功");
+            nianyuehe = true;
+          }
+          if (rishihe == false && nianyuehe == false) {
+            hehuaLog.push("六合组合失败");
+            return 0;
+          }
+        }
+
+        // 判断合化条件
+        if (yuerihe == true) {
+          hehuaLog.push("月支日支六合合化判断：");
+
+          let tiaojian_1 = false;
+          let tiaojian_2 = false;
+          let tiaojian_3 = false;
+          // 条件1
+          if (
+            nian_zhi.wuxing == yue_zhi.kewo ||
+            nian_zhi.wuxing == ri_zhi.kewo ||
+            nian_zhi.woke == yuezhu.branch.group6E5.name ||
+            dizhilist[nian_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.woxing == ri_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.chong == yue_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.chong == ri_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.hai == yue_zhi.dizhi ||
+            dizhilist[nian_zhi.dizhi]?.hai == ri_zhi.dizhi
+          ) {
+            hehuaLog.push("年支刑冲克害月日支及合化后五行");
+            if (
+              shi_zhi.wuxing == nian_zhi.kewo ||
+              dizhilist[shi_zhi.dizhi]?.woxing == nian_zhi.dizhi ||
+              dizhilist[shi_zhi.dizhi]?.chong == nian_zhi.dizhi ||
+              dizhilist[shi_zhi.dizhi]?.hai == nian_zhi.dizhi
+            ) {
+              hehuaLog.push("时支刑冲克害年支，反克制成功");
+              tiaojian_1 = true;
+            } else {
+              hehuaLog.push("时支不刑冲克害年支，反克制失败");
+              tiaojian_1 = false;
+            }
+          } else if (
+            shi_zhi.wuxing == yue_zhi.kewo ||
+            shi_zhi.wuxing == ri_zhi.kewo ||
+            shi_zhi.woke == yuezhu.branch.group6E5.name ||
+            dizhilist[shi_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.woxing == ri_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.chong == yue_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.chong == ri_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.hai == yue_zhi.dizhi ||
+            dizhilist[shi_zhi.dizhi]?.hai == ri_zhi.dizhi
+          ) {
+            hehuaLog.push("时支刑冲克害月日支及合化后五行");
+            if (
+              nian_zhi.wuxing == shi_zhi.kewo ||
+              dizhilist[nian_zhi.dizhi]?.woxing == shi_zhi.dizhi ||
+              dizhilist[nian_zhi.dizhi]?.chong == shi_zhi.dizhi ||
+              dizhilist[nian_zhi.dizhi]?.hai == shi_zhi.dizhi
+            ) {
+              hehuaLog.push("年支刑冲克害时支，反克制成功");
+              tiaojian_1 = true;
+            } else {
+              hehuaLog.push("年支不刑冲克害时支，反克制失败");
+              tiaojian_1 = false;
+            }
+          } else {
+            hehuaLog.push("时支与月日支无刑冲克害关系");
+            tiaojian_1 = true;
+          }
+
+          // 条件2
+          if (yuezhu.branch.e5.name == yuezhu.branch.group6E5.name) {
+            hehuaLog.push("月令与月日支合化后五行相同");
+            tiaojian_2 = true;
+          }
+
+          // 条件3
+          let countcanggan_1 = 3;
+          let countcanggan_2 = 3;
+          if (
+            yuezhu.branch.group6E5.name == nian_gan.wuxing ||
+            yuezhu.branch.group6E5.name == yue_gan.wuxing ||
+            yuezhu.branch.group6E5.name == ri_gan.wuxing ||
+            yuezhu.branch.group6E5.name == shi_gan.wuxing
+          ) {
+            hehuaLog.push("合化后五行与天干五行有相同");
+            for (var i = 0; i < nian_zhi.canggan.length; i++) {
+              if (yuezhu.branch.group6E5.name == nian_zhi.score[i][1]) {
+                countcanggan_1 = i;
+              }
+            }
+            for (var i = 0; i < shi_zhi.canggan.length; i++) {
+              if (yuezhu.branch.group6E5.name == shi_zhi.score[i][1]) {
+                countcanggan_2 = i;
+              }
+            }
+            if (countcanggan_1 == 3 && countcanggan_2 == 3) {
+              hehuaLog.push("合化后五行与其他地支藏干没有相同");
+              tiaojian_3 = false;
+            } else {
+              let cangganmeiyoukezhi = true;
+              hehuaLog.push("合化后五行与其他地支藏干有相同");
+              for (var i = 0; i < nian_zhi.canggan.length; i++) {
+                if (countcanggan_1 != i) {
+                  if (
+                    yuezhu.branch.group6E5.counteracting().name ==
+                    nian_zhi.score[i][1]
+                  ) {
+                    hehuaLog.push("年支藏干的五行有克制合化后的");
+                    tiaojian_3 = false;
+                    cangganmeiyoukezhi = false;
+                    break;
+                  }
+                }
+              }
+              for (var i = 0; i < shi_zhi.canggan.length; i++) {
+                if (countcanggan_2 != i) {
+                  if (
+                    yuezhu.branch.group6E5.counteracting().name ==
+                    shi_zhi.score[i][1]
+                  ) {
+                    hehuaLog.push("时支藏干的五行有克制合化后的");
+                    tiaojian_3 = false;
+                    cangganmeiyoukezhi = false;
+                    break;
+                  }
+                }
+              }
+              if (
+                nian_gan.woke == yuezhu.branch.group6E5.name ||
+                yue_gan.woke == yuezhu.branch.group6E5.name ||
+                ri_gan.woke == yuezhu.branch.group6E5.name ||
+                shi_gan.woke == yuezhu.branch.group6E5.name
+              ) {
+                hehuaLog.push("天干的五行有克制合化后的五行");
+                tiaojian_3 = false;
+              } else if (cangganmeiyoukezhi == true) {
+                hehuaLog.push("合化后五行与其他地支藏干和天干没有被克制关系");
+                tiaojian_3 = true;
+              }
+            }
+          }
+          if (tiaojian_1 == true && tiaojian_2 == true && tiaojian_3 == true) {
+            hehuaLog.push("三个条件都成立，合化成功");
+            yuerihe_jieguo = true;
+
+            yue_zhi.wuxing = yuezhu.branch.group6E5.name;
+            yue_zhi.kewo =
+              wuxinglist[yuezhu.branch.group6E5.name]?.counteracting;
+            yue_zhi.woke = wuxinglist[yuezhu.branch.group6E5.name]?.overcoming;
+            yue_zhi.wosheng =
+              wuxinglist[yuezhu.branch.group6E5.name]?.generating;
+            yue_zhi.shengwo =
+              wuxinglist[yuezhu.branch.group6E5.name]?.weakening;
+            for (let i = 0; i < yue_zhi.canggan.length; i++) {
+              yue_zhi.score[i][1] = yuezhu.branch.group6E5.name;
+            }
+            yue_zhi.hehua = 1;
+
+            ri_zhi.wuxing = yuezhu.branch.group6E5.name;
+            ri_zhi.kewo =
+              wuxinglist[yuezhu.branch.group6E5.name]?.counteracting;
+            ri_zhi.woke = wuxinglist[yuezhu.branch.group6E5.name]?.overcoming;
+            ri_zhi.wosheng =
+              wuxinglist[yuezhu.branch.group6E5.name]?.generating;
+            ri_zhi.shengwo = wuxinglist[yuezhu.branch.group6E5.name]?.weakening;
+            for (let i = 0; i < ri_zhi.canggan.length; i++) {
+              ri_zhi.score[i][1] = yuezhu.branch.group6E5.name;
+            }
+            ri_zhi.hehua = 1;
+
+            return 1;
+          }
+        }
+        if (yuerihe_jieguo == true) {
+          hehuaLog.push("月支日支六合合化成功");
+        } else {
+          if (rishihe == true) {
+            hehuaLog.push("月支日支六合合化失败");
+            hehuaLog.push("日支时支六合合化判断：");
+
+            let tiaojian_1 = false;
+            let tiaojian_2 = false;
+            let tiaojian_3 = false;
+
+            // 条件1
+            if (
+              nian_zhi.wuxing == ri_zhi.kewo ||
+              nian_zhi.wuxing == shi_zhi.kewo ||
+              nian_zhi.woke == rizhu.branch.group6E5.name ||
+              dizhilist[nian_zhi.dizhi]?.woxing == ri_zhi.dizhi ||
+              dizhilist[nian_zhi.dizhi]?.woxing == shi_zhi.dizhi ||
+              dizhilist[nian_zhi.dizhi]?.chong == ri_zhi.dizhi ||
+              dizhilist[nian_zhi.dizhi]?.chong == shi_zhi.dizhi ||
+              dizhilist[nian_zhi.dizhi]?.hai == ri_zhi.dizhi ||
+              dizhilist[nian_zhi.dizhi]?.hai == shi_zhi.dizhi
+            ) {
+              hehuaLog.push("年支刑冲克害日时支及合化后五行");
+              if (
+                yue_zhi.wuxing == nian_zhi.kewo ||
+                dizhilist[yue_zhi.dizhi]?.woxing == nian_zhi.dizhi ||
+                dizhilist[yue_zhi.dizhi]?.chong == nian_zhi.dizhi ||
+                dizhilist[yue_zhi.dizhi]?.hai == nian_zhi.dizhi
+              ) {
+                hehuaLog.push("月支刑冲克害年支，反克制成功");
+                tiaojian_1 = true;
+              } else {
+                hehuaLog.push("月支不刑冲克害年支，反克制失败");
+                tiaojian_1 = false;
+              }
+            } else if (
+              yue_zhi.wuxing == ri_zhi.kewo ||
+              yue_zhi.wuxing == shi_zhi.kewo ||
+              yue_zhi.woke == rizhu.branch.group6E5.name ||
+              dizhilist[yue_zhi.dizhi]?.woxing == ri_zhi.dizhi ||
+              dizhilist[yue_zhi.dizhi]?.woxing == shi_zhi.dizhi ||
+              dizhilist[yue_zhi.dizhi]?.chong == ri_zhi.dizhi ||
+              dizhilist[yue_zhi.dizhi]?.chong == shi_zhi.dizhi ||
+              dizhilist[yue_zhi.dizhi]?.hai == ri_zhi.dizhi ||
+              dizhilist[yue_zhi.dizhi]?.hai == shi_zhi.dizhi
+            ) {
+              hehuaLog.push("月支刑冲克害日时支及合化后五行");
+              if (
+                nian_zhi.wuxing == yue_zhi.kewo ||
+                dizhilist[nian_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
+                dizhilist[nian_zhi.dizhi]?.chong == yue_zhi.dizhi ||
+                dizhilist[nian_zhi.dizhi]?.hai == yue_zhi.dizhi
+              ) {
+                hehuaLog.push("年支刑冲克害月支，反克制成功");
+                tiaojian_1 = true;
+              } else {
+                hehuaLog.push("年支不刑冲克害月支，反克制失败");
+                tiaojian_1 = false;
+              }
+            } else {
+              hehuaLog.push("日时支与月日支无刑冲克害关系");
+              tiaojian_1 = true;
+            }
+
+            // 条件2
+            if (yuezhu.branch.e5.name == rizhu.branch.group6E5.name) {
+              hehuaLog.push("月令与日时支合化后五行相同");
+              tiaojian_2 = true;
+            }
+
+            // 条件3
+            let countcanggan_1 = 3;
+            let countcanggan_2 = 3;
+            if (
+              rizhu.branch.group6E5.name == nian_gan.wuxing ||
+              rizhu.branch.group6E5.name == yue_gan.wuxing ||
+              rizhu.branch.group6E5.name == ri_gan.wuxing ||
+              rizhu.branch.group6E5.name == shi_gan.wuxing
+            ) {
+              hehuaLog.push("合化后五行与天干五行有相同");
+              for (var i = 0; i < nian_zhi.canggan.length; i++) {
+                if (rizhu.branch.group6E5.name == nian_zhi.score[i][1]) {
+                  countcanggan_1 = i;
+                }
+              }
+              for (var i = 0; i < yue_zhi.canggan.length; i++) {
+                if (rizhu.branch.group6E5.name == yue_zhi.score[i][1]) {
+                  countcanggan_2 = i;
+                }
+              }
+              if (countcanggan_1 == 3 && countcanggan_2 == 3) {
+                hehuaLog.push("合化后五行与其他地支藏干无相同");
+                tiaojian_3 = false;
+              } else {
+                let cangganmeiyoukezhi = true;
+                hehuaLog.push("合化后五行与其他地支藏干有相同");
+                for (var i = 0; i < nian_zhi.canggan.length; i++) {
+                  if (countcanggan_1 != i) {
+                    if (
+                      rizhu.branch.group6E5.counteracting().name ==
+                      nian_zhi.score[i][1]
+                    ) {
+                      hehuaLog.push("年支藏干的五行有克制合化后的");
+                      tiaojian_3 = false;
+                      cangganmeiyoukezhi = false;
+                      break;
+                    }
+                  }
+                }
+                for (var i = 0; i < yue_zhi.canggan.length; i++) {
+                  if (countcanggan_2 != i) {
+                    if (
+                      rizhu.branch.group6E5.counteracting().name ==
+                      yue_zhi.score[i][1]
+                    ) {
+                      hehuaLog.push("月支藏干的五行有克制合化后的");
+                      tiaojian_3 = false;
+                      cangganmeiyoukezhi = false;
+                      break;
+                    }
+                  }
+                }
+                if (
+                  nian_gan.woke == rizhu.branch.group6E5.name ||
+                  yue_gan.woke == rizhu.branch.group6E5.name ||
+                  ri_gan.woke == rizhu.branch.group6E5.name ||
+                  shi_gan.woke == rizhu.branch.group6E5.name
+                ) {
+                  hehuaLog.push("天干的五行有克制合化后的五行");
+                  tiaojian_3 = false;
+                } else if (cangganmeiyoukezhi == true) {
+                  hehuaLog.push("合化后五行与其他地支藏干和天干无克制关系");
+                  tiaojian_3 = true;
+                }
+              }
+            }
+            if (
+              tiaojian_1 == true &&
+              tiaojian_2 == true &&
+              tiaojian_3 == true
+            ) {
+              hehuaLog.push("日支时支六合合化成功");
+
+              let rishihe_jieguo = true;
+
+              ri_zhi.wuxing = rizhu.branch.group6E5.name;
+              ri_zhi.kewo =
+                wuxinglist[rizhu.branch.group6E5.name]?.counteracting;
+              ri_zhi.woke = wuxinglist[rizhu.branch.group6E5.name]?.overcoming;
+              ri_zhi.wosheng =
+                wuxinglist[rizhu.branch.group6E5.name]?.generating;
+              ri_zhi.shengwo =
+                wuxinglist[rizhu.branch.group6E5.name]?.weakening;
+              for (let i = 0; i < ri_zhi.canggan.length; i++) {
+                ri_zhi.score[i][1] = rizhu.branch.group6E5.name;
+              }
+              ri_zhi.hehua = 1;
+
+              shi_zhi.wuxing = rizhu.branch.group6E5.name;
+              shi_zhi.kewo =
+                wuxinglist[rizhu.branch.group6E5.name]?.counteracting;
+              shi_zhi.woke = wuxinglist[rizhu.branch.group6E5.name]?.overcoming;
+              shi_zhi.wosheng =
+                wuxinglist[rizhu.branch.group6E5.name]?.generating;
+              shi_zhi.shengwo =
+                wuxinglist[rizhu.branch.group6E5.name]?.weakening;
+              for (let i = 0; i < shi_zhi.canggan.length; i++) {
+                shi_zhi.score[i][1] = rizhu.branch.group6E5.name;
+              }
+              shi_zhi.hehua = 1;
+            }
+          }
+          if (nianyuehe == true) {
+            hehuaLog.push("月支日支六合合化失败");
+            hehuaLog.push("年支月支六合合化判断：");
+
+            let tiaojian_1 = false;
+            let tiaojian_2 = false;
+            let tiaojian_3 = false;
+
+            // 条件1
+            if (
+              ri_zhi.wuxing == yue_zhi.kewo ||
+              ri_zhi.wuxing == nian_zhi.kewo ||
+              ri_zhi.woke == yuezhu.branch.group6E5.name ||
+              dizhilist[ri_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
+              dizhilist[ri_zhi.dizhi]?.woxing == nian_zhi.dizhi ||
+              dizhilist[ri_zhi.dizhi]?.chong == yue_zhi.dizhi ||
+              dizhilist[ri_zhi.dizhi]?.chong == nian_zhi.dizhi ||
+              dizhilist[ri_zhi.dizhi]?.hai == yue_zhi.dizhi ||
+              dizhilist[ri_zhi.dizhi]?.hai == nian_zhi.dizhi
+            ) {
+              hehuaLog.push("日支刑冲克害日时支及合化后五行");
+              if (
+                shi_zhi.wuxing == ri_zhi.kewo ||
+                dizhilist[shi_zhi.dizhi]?.woxing == ri_zhi.dizhi ||
+                dizhilist[shi_zhi.dizhi]?.chong == ri_zhi.dizhi ||
+                dizhilist[shi_zhi.dizhi]?.hai == ri_zhi.dizhi
+              ) {
+                hehuaLog.push("时支刑冲克害日支，反克制成功");
+                tiaojian_1 = true;
+              } else {
+                hehuaLog.push("时支不刑冲克害日支，反克制失败");
+                tiaojian_1 = false;
+              }
+            } else if (
+              shi_zhi.wuxing == nian_zhi.kewo ||
+              shi_zhi.wuxing == yue_zhi.kewo ||
+              shi_zhi.woke == yuezhu.branch.group6E5.name ||
+              dizhilist[shi_zhi.dizhi]?.woxing == nian_zhi.dizhi ||
+              dizhilist[shi_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
+              dizhilist[shi_zhi.dizhi]?.chong == nian_zhi.dizhi ||
+              dizhilist[shi_zhi.dizhi]?.chong == yue_zhi.dizhi ||
+              dizhilist[shi_zhi.dizhi]?.hai == nian_zhi.dizhi ||
+              dizhilist[shi_zhi.dizhi]?.hai == shi_zhi.dizhi
+            ) {
+              hehuaLog.push("月支刑冲克害日时支及合化后五行");
+              if (
+                ri_zhi.wuxing == shi_zhi.kewo ||
+                dizhilist[ri_zhi.dizhi]?.woxing == shi_zhi.dizhi ||
+                dizhilist[ri_zhi.dizhi]?.chong == shi_zhi.dizhi ||
+                dizhilist[ri_zhi.dizhi]?.hai == shi_zhi.dizhi
+              ) {
+                hehuaLog.push("日支刑冲克害时支，反克制成功");
+                tiaojian_1 = true;
+              } else {
+                hehuaLog.push("日支不刑冲克害时支，反克制失败");
+                tiaojian_1 = false;
+              }
+            } else {
+              hehuaLog.push("日时支与月日支无刑冲克害关系");
+              tiaojian_1 = true;
+            }
+
+            // 条件2
+            if (yuezhu.branch.e5.name == yuezhu.branch.group6E5.name) {
+              hehuaLog.push("月令与日时支合化后五行相同");
+              tiaojian_2 = true;
+            }
+
+            // 条件3
+            let countcanggan_1 = 3;
+            let countcanggan_2 = 3;
+            if (
+              yuezhu.branch.group6E5.name == nian_gan.wuxing ||
+              yuezhu.branch.group6E5.name == yue_gan.wuxing ||
+              yuezhu.branch.group6E5.name == ri_gan.wuxing ||
+              yuezhu.branch.group6E5.name == shi_gan.wuxing
+            ) {
+              hehuaLog.push("合化后五行与天干五行有相同");
+              for (var i = 0; i < ri_zhi.canggan.length; i++) {
+                if (yuezhu.branch.group6E5.name == ri_zhi.score[i][1]) {
+                  countcanggan_1 = i;
+                }
+              }
+              for (var i = 0; i < shi_zhi.canggan.length; i++) {
+                if (yuezhu.branch.group6E5.name == shi_zhi.score[i][1]) {
+                  countcanggan_2 = i;
+                }
+              }
+              if (countcanggan_1 == 3 && countcanggan_2 == 3) {
+                hehuaLog.push("合化后五行与其他地支藏干无相同");
+                tiaojian_3 = false;
+              } else {
+                let cangganmeiyoukezhi = true;
+                hehuaLog.push("合化后五行与其他地支藏干有相同");
+                for (var i = 0; i < ri_zhi.canggan.length; i++) {
+                  if (countcanggan_1 != i) {
+                    if (
+                      yuezhu.branch.group6E5.counteracting().name ==
+                      ri_zhi.score[i][1]
+                    ) {
+                      hehuaLog.push("年支藏干的五行有克制合化后的");
+                      tiaojian_3 = false;
+                      cangganmeiyoukezhi = false;
+                      break;
+                    }
+                  }
+                }
+                for (var i = 0; i < shi_zhi.canggan.length; i++) {
+                  if (countcanggan_2 != i) {
+                    if (
+                      yuezhu.branch.group6E5.counteracting().name ==
+                      shi_zhi.score[i][1]
+                    ) {
+                      hehuaLog.push("月支藏干的五行有克制合化后的");
+                      tiaojian_3 = false;
+                      cangganmeiyoukezhi = false;
+                      break;
+                    }
+                  }
+                }
+                if (
+                  nian_gan.woke == yuezhu.branch.group6E5.name ||
+                  yue_gan.woke == yuezhu.branch.group6E5.name ||
+                  ri_gan.woke == yuezhu.branch.group6E5.name ||
+                  shi_gan.woke == yuezhu.branch.group6E5.name
+                ) {
+                  hehuaLog.push("天干的五行有克制合化后的五行");
+                  tiaojian_3 = false;
+                } else if (cangganmeiyoukezhi == true) {
+                  hehuaLog.push("合化后五行与其他地支藏干和天干无克制关系");
+                  tiaojian_3 = true;
+                }
+              }
+            }
+
+            if (
+              tiaojian_1 == true &&
+              tiaojian_2 == true &&
+              tiaojian_3 == true
+            ) {
+              hehuaLog.push("年支月支六合合化成功");
+
+              let nianyuehe_jieguo = true;
+
+              nian_zhi.wuxing = yuezhu.branch.group6E5.name;
+              nian_zhi.kewo =
+                wuxinglist[yuezhu.branch.group6E5.name]?.counteracting;
+              nian_zhi.woke =
+                wuxinglist[yuezhu.branch.group6E5.name]?.overcoming;
+              nian_zhi.wosheng =
+                wuxinglist[yuezhu.branch.group6E5.name]?.generating;
+              nian_zhi.shengwo =
+                wuxinglist[yuezhu.branch.group6E5.name]?.weakening;
+              for (let i = 0; i < nian_zhi.canggan.length; i++) {
+                nian_zhi.score[i][1] = yuezhu.branch.group6E5.name;
+              }
+              nian_zhi.hehua = 1;
+
+              yue_zhi.wuxing = yuezhu.branch.group6E5.name;
+              yue_zhi.kewo =
+                wuxinglist[yuezhu.branch.group6E5.name]?.counteracting;
+              yue_zhi.woke =
+                wuxinglist[yuezhu.branch.group6E5.name]?.overcoming;
+              yue_zhi.wosheng =
+                wuxinglist[yuezhu.branch.group6E5.name]?.generating;
+              yue_zhi.shengwo =
+                wuxinglist[yuezhu.branch.group6E5.name]?.weakening;
+              for (let i = 0; i < yue_zhi.canggan.length; i++) {
+                yue_zhi.score[i][1] = yuezhu.branch.group6E5.name;
+              }
+              yue_zhi.hehua = 1;
+            }
+          }
+          if (nianyuehe_jieguo == true || rishihe_jieguo == true) {
+            return 1;
+          }
         }
       }
 
@@ -1009,8 +2017,8 @@
         let geju2 = -1;
 
         // 计算同党和异党分数
-        tongdang_score = 
-          wuxing_score[ri_gan.wuxing].score + 
+        tongdang_score =
+          wuxing_score[ri_gan.wuxing].score +
           wuxing_score[ri_gan.shengwo].score;
         yidang_score = 610 - tongdang_score;
 
@@ -1061,28 +2069,28 @@
           // 十神正格判断
           else {
             // 杂气格判断
-          if (
-            yue_zhi.dizhi == "辰" ||
-            yue_zhi.dizhi == "戌" ||
-            yue_zhi.dizhi == "丑" ||
-            yue_zhi.dizhi == "未"
-          ) {
-            window.zaqi = 2;
-          } else {
-            window.zaqi = 1;
-          }
+            if (
+              yue_zhi.dizhi == "辰" ||
+              yue_zhi.dizhi == "戌" ||
+              yue_zhi.dizhi == "丑" ||
+              yue_zhi.dizhi == "未"
+            ) {
+              zaqi = 2;
+            } else {
+              zaqi = 1;
+            }
 
-          // 潜在格判断
-          if (
-            nianzhu.stem.e5.name != yuezhu.branch.hiddenStems[0].e5.name &&
-            yuezhu.stem.e5.name != yuezhu.branch.hiddenStems[0].e5.name &&
-            rizhu.stem.e5.name != yuezhu.branch.hiddenStems[0].e5.name &&
-            shizhu.stem.e5.name != yuezhu.branch.hiddenStems[0].e5.name
-          ) {
-            window.qianzai = 1;
-          } else {
-            window.qianzai = 4;
-          }
+            // 潜在格判断
+            if (
+              nianzhu.stem.e5.name != yuezhu.branch.hiddenStems[0].e5.name &&
+              yuezhu.stem.e5.name != yuezhu.branch.hiddenStems[0].e5.name &&
+              rizhu.stem.e5.name != yuezhu.branch.hiddenStems[0].e5.name &&
+              shizhu.stem.e5.name != yuezhu.branch.hiddenStems[0].e5.name
+            ) {
+              qianzai = 1;
+            } else {
+              qianzai = 4;
+            }
 
             // 十神正格判断
             if (yuezhu.branch.hiddenStems[0].e5.name == ri_gan.wuxing) {
@@ -1265,7 +2273,7 @@
         let gejuResult = "";
         let baseGeju = geju; // 基础格局值
         let prefix = "";
-        
+
         // 解析格局中的潜在和杂气信息
         if (geju > 19) {
           // 检查是否包含杂气信息
@@ -1273,14 +2281,14 @@
             prefix += "杂气";
             baseGeju = geju / 2;
           }
-          
+
           // 检查是否包含潜在信息
           if (baseGeju > 19 && baseGeju % 4 === 0) {
             prefix += "潜在";
             baseGeju = baseGeju / 4;
           }
         }
-        
+
         switch (baseGeju) {
           case 1:
             gejuResult = prefix + "化木格";
