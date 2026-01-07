@@ -6,7 +6,7 @@
     <title>八字命理分析</title>
     <style>
       body {
-        font-family: "Microsoft YaHei", sans-serif;
+        font-family: 'Microsoft YaHei', sans-serif;
         line-height: 1.6;
         max-width: 800px;
         margin: 0 auto;
@@ -26,7 +26,7 @@
         margin-bottom: 5px;
         font-weight: bold;
       }
-      input[type="datetime-local"],
+      input[type='datetime-local'],
       select {
         width: 100%;
         padding: 8px;
@@ -209,267 +209,267 @@
         火: { score: 0 },
         土: { score: 0 },
         金: { score: 0 },
-        水: { score: 0 },
+        水: { score: 0 }
       };
 
       // 五行生克关系
       let wuxinglist = {
         木: {
-          counteracting: "金",
-          overcoming: "土",
-          generating: "火",
-          weakening: "水",
+          counteracting: '金',
+          overcoming: '土',
+          generating: '火',
+          weakening: '水'
         },
         火: {
-          counteracting: "水",
-          overcoming: "金",
-          generating: "土",
-          weakening: "木",
+          counteracting: '水',
+          overcoming: '金',
+          generating: '土',
+          weakening: '木'
         },
         土: {
-          counteracting: "木",
-          overcoming: "水",
-          generating: "金",
-          weakening: "火",
+          counteracting: '木',
+          overcoming: '水',
+          generating: '金',
+          weakening: '火'
         },
         金: {
-          counteracting: "火",
-          overcoming: "木",
-          generating: "水",
-          weakening: "土",
+          counteracting: '火',
+          overcoming: '木',
+          generating: '水',
+          weakening: '土'
         },
         水: {
-          counteracting: "土",
-          overcoming: "火",
-          generating: "木",
-          weakening: "金",
-        },
+          counteracting: '土',
+          overcoming: '火',
+          generating: '木',
+          weakening: '金'
+        }
       };
 
       // 天干信息
       let tianganlist = {
         甲: {
-          e5: "木",
+          e5: '木',
           score: 40,
-          yinyang: "阳",
-          wuhe: "己",
-          wuhehou_e5: "土",
+          yinyang: '阳',
+          wuhe: '己',
+          wuhehou_e5: '土'
         },
         乙: {
-          e5: "木",
+          e5: '木',
           score: 40,
-          yinyang: "阴",
-          wuhe: "庚",
-          wuhehou_e5: "金",
+          yinyang: '阴',
+          wuhe: '庚',
+          wuhehou_e5: '金'
         },
         丙: {
-          e5: "火",
+          e5: '火',
           score: 40,
-          yinyang: "阳",
-          wuhe: "辛",
-          wuhehou_e5: "水",
+          yinyang: '阳',
+          wuhe: '辛',
+          wuhehou_e5: '水'
         },
         丁: {
-          e5: "火",
+          e5: '火',
           score: 40,
-          yinyang: "阴",
-          wuhe: "壬",
-          wuhehou_e5: "木",
+          yinyang: '阴',
+          wuhe: '壬',
+          wuhehou_e5: '木'
         },
         戊: {
-          e5: "土",
+          e5: '土',
           score: 40,
-          yinyang: "阳",
-          wuhe: "癸",
-          wuhehou_e5: "火",
+          yinyang: '阳',
+          wuhe: '癸',
+          wuhehou_e5: '火'
         },
         己: {
-          e5: "土",
+          e5: '土',
           score: 40,
-          yinyang: "阴",
-          wuhe: "甲",
-          wuhehou_e5: "土",
+          yinyang: '阴',
+          wuhe: '甲',
+          wuhehou_e5: '土'
         },
         庚: {
-          e5: "金",
+          e5: '金',
           score: 40,
-          yinyang: "阳",
-          wuhe: "乙",
-          wuhehou_e5: "金",
+          yinyang: '阳',
+          wuhe: '乙',
+          wuhehou_e5: '金'
         },
         辛: {
-          e5: "金",
+          e5: '金',
           score: 40,
-          yinyang: "阴",
-          hehua: "丙",
-          wuhehou_e5: "水",
+          yinyang: '阴',
+          hehua: '丙',
+          wuhehou_e5: '水'
         },
         壬: {
-          e5: "水",
+          e5: '水',
           score: 40,
-          yinyang: "阳",
-          wuhe: "丁",
-          wuhehou_e5: "木",
+          yinyang: '阳',
+          wuhe: '丁',
+          wuhehou_e5: '木'
         },
         癸: {
-          e5: "水",
+          e5: '水',
           score: 40,
-          yinyang: "阴",
-          wuhe: "戊",
-          wuhehou_e5: "火",
-        },
+          yinyang: '阴',
+          wuhe: '戊',
+          wuhehou_e5: '火'
+        }
       };
 
       // 地支信息
       let dizhilist = {
         子: {
-          e5: "水",
+          e5: '水',
           canggan: {
-            癸: { e5: "水", score: 100, yinyang: "阴" },
+            癸: { e5: '水', score: 100, yinyang: '阴' }
           },
-          chong: "午",
-          hai: "未",
-          woxing: "卯",
-          xingwo: "卯",
-          sanhuifang: { 0: "亥", 1: "丑", sanhufang_e5: "水" },
+          chong: '午',
+          hai: '未',
+          woxing: '卯',
+          xingwo: '卯',
+          sanhuifang: { 0: '亥', 1: '丑', sanhufang_e5: '水' }
         },
         丑: {
-          e5: "土",
+          e5: '土',
           canggan: {
-            己: { e5: "土", score: 60, yinyang: "阴" },
-            癸: { e5: "水", score: 30, yinyang: "阴" },
-            辛: { e5: "金", score: 10, yinyang: "阴" },
+            己: { e5: '土', score: 60, yinyang: '阴' },
+            癸: { e5: '水', score: 30, yinyang: '阴' },
+            辛: { e5: '金', score: 10, yinyang: '阴' }
           },
-          chong: "未",
-          hai: "午",
-          woxing: "戌",
-          xingwo: "未",
-          sanhuifang: { 0: "子", 1: "亥", sanhufang_e5: "水" },
+          chong: '未',
+          hai: '午',
+          woxing: '戌',
+          xingwo: '未',
+          sanhuifang: { 0: '子', 1: '亥', sanhufang_e5: '水' }
         },
         寅: {
-          e5: "木",
+          e5: '木',
           canggan: {
-            甲: { e5: "木", score: 70, yinyang: "阳" },
-            丙: { e5: "火", score: 20, yinyang: "阳" },
-            戊: { e5: "土", score: 10, yinyang: "阳" },
+            甲: { e5: '木', score: 70, yinyang: '阳' },
+            丙: { e5: '火', score: 20, yinyang: '阳' },
+            戊: { e5: '土', score: 10, yinyang: '阳' }
           },
-          chong: "申",
-          hai: "巳",
-          woxing: "巳",
-          xingwo: "申",
-          sanhuifang: { 0: "卯", 1: "辰", sanhufang_e5: "木" },
+          chong: '申',
+          hai: '巳',
+          woxing: '巳',
+          xingwo: '申',
+          sanhuifang: { 0: '卯', 1: '辰', sanhufang_e5: '木' }
         },
         卯: {
-          e5: "木",
+          e5: '木',
           canggan: {
-            乙: { e5: "木", score: 100, yinyang: "阴" },
+            乙: { e5: '木', score: 100, yinyang: '阴' }
           },
-          chong: "酉",
-          hai: "辰",
-          woxing: "子",
-          xingwo: "子",
-          sanhuifang: { 0: "寅", 1: "辰", sanhufang_e5: "木" },
+          chong: '酉',
+          hai: '辰',
+          woxing: '子',
+          xingwo: '子',
+          sanhuifang: { 0: '寅', 1: '辰', sanhufang_e5: '木' }
         },
         辰: {
-          e5: "土",
+          e5: '土',
           canggan: {
-            戊: { e5: "土", score: 60, yinyang: "阳" },
-            乙: { e5: "木", score: 30, yinyang: "阴" },
-            癸: { e5: "水", score: 10, yinyang: "阴" },
+            戊: { e5: '土', score: 60, yinyang: '阳' },
+            乙: { e5: '木', score: 30, yinyang: '阴' },
+            癸: { e5: '水', score: 10, yinyang: '阴' }
           },
-          chong: "戌",
-          hai: "卯",
-          woxing: "辰",
-          xingwo: "辰",
-          sanhuifang: { 0: "寅", 1: "卯", sanhufang_e5: "木" },
+          chong: '戌',
+          hai: '卯',
+          woxing: '辰',
+          xingwo: '辰',
+          sanhuifang: { 0: '寅', 1: '卯', sanhufang_e5: '木' }
         },
         巳: {
-          e5: "火",
+          e5: '火',
           canggan: {
-            丙: { e5: "火", score: 70, yinyang: "阳" },
-            庚: { e5: "金", score: 20, yinyang: "阳" },
-            戊: { e5: "土", score: 10, yinyang: "阳" },
+            丙: { e5: '火', score: 70, yinyang: '阳' },
+            庚: { e5: '金', score: 20, yinyang: '阳' },
+            戊: { e5: '土', score: 10, yinyang: '阳' }
           },
-          chong: "亥",
-          hai: "寅",
-          woxing: "申",
-          xingwo: "寅",
-          sanhuifang: { 0: "午", 1: "未", sanhufang_e5: "火" },
+          chong: '亥',
+          hai: '寅',
+          woxing: '申',
+          xingwo: '寅',
+          sanhuifang: { 0: '午', 1: '未', sanhufang_e5: '火' }
         },
         午: {
-          e5: "火",
+          e5: '火',
           canggan: {
-            丁: { e5: "火", score: 70, yinyang: "阴" },
-            己: { e5: "土", score: 30, yinyang: "阴" },
+            丁: { e5: '火', score: 70, yinyang: '阴' },
+            己: { e5: '土', score: 30, yinyang: '阴' }
           },
-          chong: "子",
-          hai: "丑",
-          woxing: "午",
-          xingwo: "午",
-          sanhuifang: { 0: "巳", 1: "未", sanhufang_e5: "火" },
+          chong: '子',
+          hai: '丑',
+          woxing: '午',
+          xingwo: '午',
+          sanhuifang: { 0: '巳', 1: '未', sanhufang_e5: '火' }
         },
         未: {
-          e5: "土",
+          e5: '土',
           canggan: {
-            己: { e5: "土", score: 60, yinyang: "阴" },
-            丁: { e5: "火", score: 30, yinyang: "阴" },
-            乙: { e5: "木", score: 10, yinyang: "阴" },
+            己: { e5: '土', score: 60, yinyang: '阴' },
+            丁: { e5: '火', score: 30, yinyang: '阴' },
+            乙: { e5: '木', score: 10, yinyang: '阴' }
           },
-          chong: "丑",
-          hai: "子",
-          woxing: "丑",
-          xingwo: "戌",
-          sanhuifang: { 0: "巳", 1: "午", sanhufang_e5: "火" },
+          chong: '丑',
+          hai: '子',
+          woxing: '丑',
+          xingwo: '戌',
+          sanhuifang: { 0: '巳', 1: '午', sanhufang_e5: '火' }
         },
         申: {
-          e5: "金",
+          e5: '金',
           canggan: {
-            庚: { e5: "金", score: 70, yinyang: "阳" },
-            壬: { e5: "水", score: 20, yinyang: "阳" },
-            戊: { e5: "土", score: 10, yinyang: "阳" },
+            庚: { e5: '金', score: 70, yinyang: '阳' },
+            壬: { e5: '水', score: 20, yinyang: '阳' },
+            戊: { e5: '土', score: 10, yinyang: '阳' }
           },
-          chong: "寅",
-          hai: "亥",
-          woxing: "寅",
-          xingwo: "巳",
-          sanhuifang: { 0: "酉", 1: "戌", sanhufang_e5: "金" },
+          chong: '寅',
+          hai: '亥',
+          woxing: '寅',
+          xingwo: '巳',
+          sanhuifang: { 0: '酉', 1: '戌', sanhufang_e5: '金' }
         },
         酉: {
-          e5: "金",
+          e5: '金',
           canggan: {
-            辛: { e5: "金", score: 100, yinyang: "阴" },
+            辛: { e5: '金', score: 100, yinyang: '阴' }
           },
-          chong: "卯",
-          hai: "戌",
-          woxing: "酉",
-          xingwo: "酉",
-          sanhuifang: { 0: "申", 1: "戌", sanhufang_e5: "金" },
+          chong: '卯',
+          hai: '戌',
+          woxing: '酉',
+          xingwo: '酉',
+          sanhuifang: { 0: '申', 1: '戌', sanhufang_e5: '金' }
         },
         戌: {
-          e5: "土",
+          e5: '土',
           canggan: {
-            戊: { e5: "土", score: 60, yinyang: "阳" },
-            辛: { e5: "金", score: 30, yinyang: "阴" },
-            丁: { e5: "火", score: 10, yinyang: "阴" },
+            戊: { e5: '土', score: 60, yinyang: '阳' },
+            辛: { e5: '金', score: 30, yinyang: '阴' },
+            丁: { e5: '火', score: 10, yinyang: '阴' }
           },
-          chong: "辰",
-          hai: "酉",
-          woxing: "未",
-          xingwo: "丑",
-          sanhuifang: { 0: "申", 1: "酉", sanhufang_e5: "金" },
+          chong: '辰',
+          hai: '酉',
+          woxing: '未',
+          xingwo: '丑',
+          sanhuifang: { 0: '申', 1: '酉', sanhufang_e5: '金' }
         },
         亥: {
-          e5: "水",
+          e5: '水',
           canggan: {
-            壬: { e5: "水", score: 70, yinyang: "阳" },
-            甲: { e5: "木", score: 30, yinyang: "阳" },
+            壬: { e5: '水', score: 70, yinyang: '阳' },
+            甲: { e5: '木', score: 30, yinyang: '阳' }
           },
-          chong: "巳",
-          hai: "申",
-          woxing: "亥",
-          xingwo: "亥",
-          sanhuifang: { 0: "子", 1: "丑", sanhufang_e5: "水" },
-        },
+          chong: '巳',
+          hai: '申',
+          woxing: '亥',
+          xingwo: '亥',
+          sanhuifang: { 0: '子', 1: '丑', sanhufang_e5: '水' }
+        }
       };
 
       // 重置全局变量
@@ -526,9 +526,9 @@
           this.score[i][0] =
             dizhilist[this.dizhi]?.canggan[this.canggan[i].name]?.score || 0;
           this.score[i][1] =
-            dizhilist[this.dizhi]?.canggan[this.canggan[i].name]?.e5 || "";
+            dizhilist[this.dizhi]?.canggan[this.canggan[i].name]?.e5 || '';
           this.score[i][2] =
-            dizhilist[this.dizhi]?.canggan[this.canggan[i].name]?.yinyang || "";
+            dizhilist[this.dizhi]?.canggan[this.canggan[i].name]?.yinyang || '';
         }
 
         this.sanhuifang = dizhilist[this.dizhi]?.sanhuifang;
@@ -594,7 +594,7 @@
 
       // 天干五合判断
       function tianganwuhe() {
-        hehuaLog.push("天干五合判断：");
+        hehuaLog.push('天干五合判断：');
         let hasValidHehua = false; // 日干月干合化标记
         let hasValidHehua_2 = false; // 日干时干合化标记
         let hasValidHehua_3 = false; // 月干年干合化标记
@@ -604,7 +604,7 @@
           !hasValidHehua &&
           tianganlist[ri_gan.tian_gan]?.wuhe == yue_gan.tian_gan
         ) {
-          hehuaLog.push("日干和月干可合化");
+          hehuaLog.push('日干和月干可合化');
 
           let tiaojian_1 = true;
           let tiaojian_2 = true;
@@ -616,14 +616,14 @@
             nian_gan.woke == yue_gan.wuxing ||
             nian_gan.woke == tianganlist[ri_gan.tian_gan]?.wuhehou_e5
           ) {
-            hehuaLog.push("年干五行克制日干五行或月干五行或合化后五行");
+            hehuaLog.push('年干五行克制日干五行或月干五行或合化后五行');
             if (shi_gan.woke == nian_gan.wuxing) {
               tiaojian_1 = true;
-              hehuaLog.push("条件1满足反克制，条件1成立");
+              hehuaLog.push('条件1满足反克制，条件1成立');
             } else {
               tiaojian_1 = false;
               hasValidHehua = false;
-              hehuaLog.push("条件1不满足反克制,年干克制,条件1不成立");
+              hehuaLog.push('条件1不满足反克制,年干克制,条件1不成立');
             }
           }
           if (
@@ -631,25 +631,25 @@
             shi_gan.woke == ri_gan.wuxing ||
             shi_gan.woke == tianganlist[ri_gan.tian_gan]?.wuhehou_e5
           ) {
-            hehuaLog.push("时干五行克制日干五行或月干五行或合化后五行");
+            hehuaLog.push('时干五行克制日干五行或月干五行或合化后五行');
             if (nian_gan.woke == shi_gan.wuxing) {
               tiaojian_1 = true;
-              hehuaLog.push("条件1满足反克制，条件1成立");
+              hehuaLog.push('条件1满足反克制，条件1成立');
             } else {
               tiaojian_1 = false;
               hasValidHehua = false;
-              hehuaLog.push("条件1不满足反克制,时干克制,条件1不成立");
+              hehuaLog.push('条件1不满足反克制,时干克制,条件1不成立');
             }
           }
 
           // 条件2判断
           if (yue_zhi.wuxing == tianganlist[ri_gan.tian_gan]?.wuhehou_e5) {
             tiaojian_2 = true;
-            hehuaLog.push("月令五行等于合化后五行，条件2满足，得令");
+            hehuaLog.push('月令五行等于合化后五行，条件2满足，得令');
           } else {
             tiaojian_2 = false;
             hasValidHehua = false;
-            hehuaLog.push("月令五行不等于合化后五行，条件2不满足，不得令");
+            hehuaLog.push('月令五行不等于合化后五行，条件2不满足，不得令');
           }
 
           // 条件3判断
@@ -666,25 +666,25 @@
               tiaojian_3 = false;
               hasValidHehua = false;
               hehuaLog.push(
-                "年支/日支/时支的五行中有等于合化后的五行，但是也有别的地支，克制该强根五行（合化后的五行），条件3不满足，无强根"
+                '年支/日支/时支的五行中有等于合化后的五行，但是也有别的地支，克制该强根五行（合化后的五行），条件3不满足，无强根'
               );
             } else {
               tiaojian_3 = true;
               hehuaLog.push(
-                "年支/日支/时支的五行中任意一个等于合化后的五行，条件3满足，有强根"
+                '年支/日支/时支的五行中任意一个等于合化后的五行，条件3满足，有强根'
               );
             }
           } else {
             tiaojian_3 = false;
             hasValidHehua = false;
             hehuaLog.push(
-              "年支/日支/时支的五行中没有一个等于合化后的五行，条件3不满足，无强根"
+              '年支/日支/时支的五行中没有一个等于合化后的五行，条件3不满足，无强根'
             );
           }
 
           // 条件4判断
           if (tiaojian_1 == true && tiaojian_2 == true && tiaojian_3 == true) {
-            hehuaLog.push("条件1、2、3都满足，日干月干合化成功");
+            hehuaLog.push('条件1、2、3都满足，日干月干合化成功');
             hasValidHehua = true;
 
             ri_gan.wuxing =
@@ -724,7 +724,7 @@
           !hasValidHehua &&
           tianganlist[ri_gan.tian_gan]?.wuhe == shi_gan.tian_gan
         ) {
-          hehuaLog.push("日干和时干可合化");
+          hehuaLog.push('日干和时干可合化');
           let tiaojian_1 = true;
           let tiaojian_2 = true;
           let tiaojian_3 = true;
@@ -734,14 +734,14 @@
             nian_gan.woke == shi_gan.wuxing ||
             nian_gan.woke == tianganlist[ri_gan.tian_gan]?.wuhehou_e5
           ) {
-            hehuaLog.push("年干五行克制日干五行或时干五行或合化后五行");
+            hehuaLog.push('年干五行克制日干五行或时干五行或合化后五行');
             if (yue_gan.woke == nian_gan.wuxing) {
               tiaojian_1 = true;
-              hehuaLog.push("条件1满足反克制，条件1成立");
+              hehuaLog.push('条件1满足反克制，条件1成立');
             } else {
               tiaojian_1 = false;
               hasValidHehua_2 = false;
-              hehuaLog.push("条件1不满足反克制,年干克制,条件1不成立");
+              hehuaLog.push('条件1不满足反克制,年干克制,条件1不成立');
             }
           }
           if (
@@ -749,25 +749,25 @@
             yue_gan.woke == ri_gan.wuxing ||
             yue_gan.woke == tianganlist[ri_gan.tian_gan]?.wuhehou_e5
           ) {
-            hehuaLog.push("月干五行克制日干五行或时干五行或合化后五行");
+            hehuaLog.push('月干五行克制日干五行或时干五行或合化后五行');
 
             if (nian_gan.woke == yue_gan.wuxing) {
               tiaojian_1 = true;
-              hehuaLog.push("条件1满足反克制，条件1成立");
+              hehuaLog.push('条件1满足反克制，条件1成立');
             } else {
               tiaojian_1 = false;
               hasValidHehua_2 = false;
-              hehuaLog.push("条件1不满足反克制,月干克制,条件1不成立");
+              hehuaLog.push('条件1不满足反克制,月干克制,条件1不成立');
             }
           }
 
           if (yue_zhi.wuxing == tianganlist[ri_gan.tian_gan]?.wuhehou_e5) {
             tiaojian_2 = true;
-            hehuaLog.push("月令五行等于合化后五行");
+            hehuaLog.push('月令五行等于合化后五行');
           } else {
             tiaojian_2 = false;
             hasValidHehua_2 = false;
-            hehuaLog.push("月令五行不等于合化后五行，条件2不满足，不得令");
+            hehuaLog.push('月令五行不等于合化后五行，条件2不满足，不得令');
           }
 
           // 条件3判断和处理逻辑与上面类似
@@ -784,24 +784,24 @@
               tiaojian_3 = false;
               hasValidHehua = false;
               hehuaLog.push(
-                "年支/日支/时支的五行中有等于合化后的五行，但是也有别的地支，克制该强根五行（合化后的五行），条件3不满足，无强根"
+                '年支/日支/时支的五行中有等于合化后的五行，但是也有别的地支，克制该强根五行（合化后的五行），条件3不满足，无强根'
               );
             } else {
               tiaojian_3 = true;
               hehuaLog.push(
-                "年支/日支/时支的五行中任意一个等于合化后的五行，条件3满足，有强根"
+                '年支/日支/时支的五行中任意一个等于合化后的五行，条件3满足，有强根'
               );
             }
           } else {
             tiaojian_3 = false;
             hasValidHehua = false;
             hehuaLog.push(
-              "年支/日支/时支的五行中没有一个等于合化后的五行，条件3不满足，无强根"
+              '年支/日支/时支的五行中没有一个等于合化后的五行，条件3不满足，无强根'
             );
           }
 
           if (tiaojian_1 == true && tiaojian_2 == true && tiaojian_3 == true) {
-            hehuaLog.push("条件1、2、3都满足，日干时干合化成功");
+            hehuaLog.push('条件1、2、3都满足，日干时干合化成功');
             hasValidHehua_2 = true;
 
             ri_gan.wuxing =
@@ -841,7 +841,7 @@
           !hasValidHehua &&
           tianganlist[yue_gan.tian_gan]?.wuhe == nian_gan.tian_gan
         ) {
-          hehuaLog.push("月干和年干可合化");
+          hehuaLog.push('月干和年干可合化');
 
           let tiaojian_1 = true;
           let tiaojian_2 = true;
@@ -853,20 +853,20 @@
             ri_gan.woke == yue_gan.wuxing ||
             ri_gan.woke == tianganlist[yue_gan.tian_gan]?.wuhehou_e5
           ) {
-            hehuaLog.push("日干五行克制年干五行或月干五行或合化后五行");
+            hehuaLog.push('日干五行克制年干五行或月干五行或合化后五行');
             if (shi_gan.woke == ri_gan.wuxing) {
               tiaojian_1 = true;
-              hehuaLog.push("条件1满足反克制，条件1成立");
+              hehuaLog.push('条件1满足反克制，条件1成立');
             } else {
               tiaojian_1 = false;
               hasValidHehua_3 = false;
-              hehuaLog.push("条件1不满足反克制,年干克制,条件1不成立");
+              hehuaLog.push('条件1不满足反克制,年干克制,条件1不成立');
             }
           }
           // 更多判断逻辑...
 
           if (tiaojian_1 == true && tiaojian_2 == true && tiaojian_3 == true) {
-            hehuaLog.push("条件1、2、3都满足，月干年干合化成功");
+            hehuaLog.push('条件1、2、3都满足，月干年干合化成功');
             hasValidHehua_3 = true;
 
             // 合化后的属性更新
@@ -904,13 +904,13 @@
 
         // 如果没有找到任何有效的合化
         if (!hasValidHehua && !hasValidHehua_2 && !hasValidHehua_3) {
-          hehuaLog.push("没有有效的天干合化");
+          hehuaLog.push('没有有效的天干合化');
         }
       }
 
       // 地支三合局判断
       function dizhi_sanheju() {
-        hehuaLog.push("地支三合局判断：");
+        hehuaLog.push('地支三合局判断：');
         var count = 2;
         let yuezhi_sanhe = false; // 以月支为中心的地支三合标记
         let rizhi_sanhe = false; // 以日支为中心的地支三合标记
@@ -933,27 +933,27 @@
             }
           }
           if (count == 2) {
-            hehuaLog.push("地支三合组合失败");
+            hehuaLog.push('地支三合组合失败');
             return 0;
           } else if (count == 1) {
             if (rizhu.branch.triad[0].name == shi_zhi.dizhi) {
-              hehuaLog.push("以日支为中心的地支三合组合成功");
+              hehuaLog.push('以日支为中心的地支三合组合成功');
               rizhi_sanhe = true;
             }
           } else if (count == 0) {
             if (rizhu.branch.triad[1].name == shi_zhi.dizhi) {
-              hehuaLog.push("以日支为中心的地支三合组合成功");
+              hehuaLog.push('以日支为中心的地支三合组合成功');
               rizhi_sanhe = true;
             }
           }
         } else if (count == 0) {
           if (yuezhu.branch.triad[1].name == ri_zhi.dizhi) {
-            hehuaLog.push("以月支为中心的地支三合组合成功");
+            hehuaLog.push('以月支为中心的地支三合组合成功');
             yuezhi_sanhe = true;
           }
         } else if (count == 1) {
           if (yuezhu.branch.triad[0].name == ri_zhi.dizhi) {
-            hehuaLog.push("以月支为中心的地支三合组合成功");
+            hehuaLog.push('以月支为中心的地支三合组合成功');
             yuezhi_sanhe = true;
           }
         }
@@ -966,40 +966,40 @@
             shi_zhi.wuxing == nian_zhi.kewo ||
             shi_zhi.wuxing == ri_zhi.kewo
           ) {
-            hehuaLog.push("时支五行克制月支五行或年支五行或日支五行");
+            hehuaLog.push('时支五行克制月支五行或年支五行或日支五行');
             tiaojian_1 = false;
           } else if (
             dizhilist[shi_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.woxing == nian_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.woxing == ri_zhi.dizhi
           ) {
-            hehuaLog.push("时支刑年月日支");
+            hehuaLog.push('时支刑年月日支');
             tiaojian_1 = false;
           } else if (
             dizhilist[shi_zhi.dizhi]?.chong == yue_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.chong == nian_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.chong == ri_zhi.dizhi
           ) {
-            hehuaLog.push("时支冲年月日支");
+            hehuaLog.push('时支冲年月日支');
             tiaojian_1 = false;
           } else if (
             dizhilist[shi_zhi.dizhi]?.hai == yue_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.hai == nian_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.hai == ri_zhi.dizhi
           ) {
-            hehuaLog.push("时支害年月日支");
+            hehuaLog.push('时支害年月日支');
             tiaojian_1 = false;
           } else {
-            hehuaLog.push("时支不克制月支不刑不冲不害年月日支");
+            hehuaLog.push('时支不克制月支不刑不冲不害年月日支');
             tiaojian_1 = true;
           }
 
           // 条件2
           if (yue_zhi.wuxing == yuezhu.branch.triadE5.name) {
-            hehuaLog.push("月支五行与合化后五行相同");
+            hehuaLog.push('月支五行与合化后五行相同');
             tiaojian_2 = true;
           } else {
-            hehuaLog.push("时支五行与月支、年支、日支五行不同");
+            hehuaLog.push('时支五行与月支、年支、日支五行不同');
             tiaojian_2 = false;
           }
 
@@ -1011,18 +1011,18 @@
             yuezhu.branch.triadE5.name == ri_gan.wuxing ||
             yuezhu.branch.triadE5.name == shi_gan.wuxing
           ) {
-            hehuaLog.push("合化后五行与天干五行有相同");
+            hehuaLog.push('合化后五行与天干五行有相同');
             for (var i = 0; i < shi_zhi.canggan.length; i++) {
               if (yuezhu.branch.triadE5.name == shi_zhi.score[i][1]) {
                 countcanggan = i;
               }
             }
             if (countcanggan == 3) {
-              hehuaLog.push("合化后五行与剩余地支藏干五行无相同");
+              hehuaLog.push('合化后五行与剩余地支藏干五行无相同');
               tiaojian_3 = false;
             } else {
               let cangganmeiyoukezhi = true;
-              hehuaLog.push("合化后五行与剩余地支藏干五行有相同");
+              hehuaLog.push('合化后五行与剩余地支藏干五行有相同');
               for (var i = 0; i < shi_zhi.canggan.length; i++) {
                 if (i == countcanggan) {
                   continue;
@@ -1031,7 +1031,7 @@
                   yuezhu.branch.triadE5.counteracting().name ==
                   shi_zhi.score[i][1]
                 ) {
-                  hehuaLog.push("藏干的五行中有克制合化后五行的");
+                  hehuaLog.push('藏干的五行中有克制合化后五行的');
                   tiaojian_3 = false;
                   cangganmeiyoukezhi = false;
                   break;
@@ -1043,16 +1043,16 @@
                 ri_gan.woke == yuezhu.branch.triadE5.name ||
                 shi_gan.woke == yuezhu.branch.triadE5.name
               ) {
-                hehuaLog.push("天干的五行中有克制合化后五行的");
+                hehuaLog.push('天干的五行中有克制合化后五行的');
                 tiaojian_3 = false;
               } else if (cangganmeiyoukezhi == true) {
-                hehuaLog.push("藏干和天干的五行中没有克制合化后五行的");
+                hehuaLog.push('藏干和天干的五行中没有克制合化后五行的');
                 tiaojian_3 = true;
               }
             }
           }
           if (tiaojian_1 == true && tiaojian_2 == true && tiaojian_3 == true) {
-            hehuaLog.push("三个条件都成立，合化成功");
+            hehuaLog.push('三个条件都成立，合化成功');
             sanhe = true;
 
             nian_zhi.wuxing = yuezhu.branch.triadE5.name;
@@ -1103,39 +1103,39 @@
             nian_zhi.wuxing == ri_zhi.kewo ||
             nian_zhi.wuxing == shi_zhi.kewo
           ) {
-            hehuaLog.push("年支五行克制月支、日支、时支五行");
+            hehuaLog.push('年支五行克制月支、日支、时支五行');
             tiaojian_1 = false;
           } else if (
             dizhilist[nian_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.woxing == ri_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.woxing == shi_zhi.dizhi
           ) {
-            hehuaLog.push("年支刑日月时支");
+            hehuaLog.push('年支刑日月时支');
             tiaojian_1 = false;
           } else if (
             dizhilist[nian_zhi.dizhi]?.chong == yue_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.chong == ri_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.chong == shi_zhi.dizhi
           ) {
-            hehuaLog.push("年支冲日月时支");
+            hehuaLog.push('年支冲日月时支');
             tiaojian_1 = false;
           } else if (
             dizhilist[nian_zhi.dizhi]?.hai == yue_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.hai == ri_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.hai == shi_zhi.dizhi
           ) {
-            hehuaLog.push("年支害日月时支");
+            hehuaLog.push('年支害日月时支');
             tiaojian_1 = false;
           } else {
-            hehuaLog.push("年支不克制月支不刑不冲不害日月时支");
+            hehuaLog.push('年支不克制月支不刑不冲不害日月时支');
             tiaojian_1 = true;
           }
           // 条件2
           if (yue_zhi.wuxing == rizhu.branch.triadE5.name) {
-            hehuaLog.push("月支五行与合化后五行相同");
+            hehuaLog.push('月支五行与合化后五行相同');
             tiaojian_2 = true;
           } else {
-            hehuaLog.push("月支五行与合化后五行不同");
+            hehuaLog.push('月支五行与合化后五行不同');
             tiaojian_2 = false;
           }
 
@@ -1147,18 +1147,18 @@
             rizhu.branch.triadE5.name == ri_gan.wuxing ||
             rizhu.branch.triadE5.name == shi_gan.wuxing
           ) {
-            hehuaLog.push("合化后五行与天干五行有相同");
+            hehuaLog.push('合化后五行与天干五行有相同');
             for (var i = 0; i < nian_zhi.canggan.length; i++) {
               if (rizhu.branch.triadE5.name == nian_zhi.score[i][1]) {
                 countcanggan = i;
               }
             }
             if (countcanggan == 3) {
-              hehuaLog.push("合化后五行与剩余地支藏干五行无相同");
+              hehuaLog.push('合化后五行与剩余地支藏干五行无相同');
               tiaojian_3 = false;
             } else {
               let cangganmeiyoukezhi = true;
-              hehuaLog.push("合化后五行与剩余地支藏干五行有相同");
+              hehuaLog.push('合化后五行与剩余地支藏干五行有相同');
               for (var i = 0; i < nian_zhi.canggan.length; i++) {
                 if (i == countcanggan) {
                   continue;
@@ -1167,7 +1167,7 @@
                   rizhu.branch.triadE5.counteracting().name ==
                   nian_zhi.score[i][1]
                 ) {
-                  hehuaLog.push("藏干的五行中有克制合化后五行的");
+                  hehuaLog.push('藏干的五行中有克制合化后五行的');
                   tiaojian_3 = false;
                   cangganmeiyoukezhi = false;
                   break;
@@ -1179,16 +1179,16 @@
                 ri_gan.woke == rizhu.branch.triadE5.name ||
                 shi_gan.woke == rizhu.branch.triadE5.name
               ) {
-                hehuaLog.push("天干的五行中有克制合化后五行的");
+                hehuaLog.push('天干的五行中有克制合化后五行的');
                 tiaojian_3 = false;
               } else if (cangganmeiyoukezhi == true) {
-                hehuaLog.push("藏干和天干的五行中没有克制合化后五行的");
+                hehuaLog.push('藏干和天干的五行中没有克制合化后五行的');
                 tiaojian_3 = true;
               }
             }
           }
           if (tiaojian_1 == true && tiaojian_2 == true && tiaojian_3 == true) {
-            hehuaLog.push("三个条件都成立，合化成功");
+            hehuaLog.push('三个条件都成立，合化成功');
             sanhe = true;
 
             yue_zhi.wuxing = rizhu.branch.triadE5.name;
@@ -1229,7 +1229,7 @@
 
       // 地支三会方判断
       function dizhi_sanhuifang() {
-        hehuaLog.push("地支三会方判断：");
+        hehuaLog.push('地支三会方判断：');
         let yuezhi_sanhui = false;
         let rizhi_sanhui = false;
         var count = 2;
@@ -1244,12 +1244,12 @@
         if (count == 0) {
           if (yue_zhi.sanhuifang[1] == ri_zhi.dizhi) {
             yuezhi_sanhui = true;
-            hehuaLog.push("年月日支三会方组合成功");
+            hehuaLog.push('年月日支三会方组合成功');
           }
         } else if (count == 1) {
           if (yue_zhi.sanhuifang[0] == ri_zhi.dizhi) {
             yuezhi_sanhui = true;
-            hehuaLog.push("年月日支三会方组合成功");
+            hehuaLog.push('年月日支三会方组合成功');
           }
         } else if (count == 2) {
           for (var i = 0; i < 2; i++) {
@@ -1260,12 +1260,12 @@
           if (count == 0) {
             if (ri_zhi.sanhuifang[1] == shi_zhi.dizhi) {
               rizhi_sanhui = true;
-              hehuaLog.push("月日时支三会方组合成功");
+              hehuaLog.push('月日时支三会方组合成功');
             }
           } else if (count == 1) {
             if (ri_zhi.sanhuifang[0] == shi_zhi.dizhi) {
               rizhi_sanhui = true;
-              hehuaLog.push("月日时支三会方组合成功");
+              hehuaLog.push('月日时支三会方组合成功');
             }
           }
         }
@@ -1276,36 +1276,36 @@
             shi_zhi.wuxing == nian_zhi.kewo ||
             shi_zhi.wuxing == ri_zhi.kewo
           ) {
-            hehuaLog.push("时支五行克制月支五行或年支五行或日支五行");
+            hehuaLog.push('时支五行克制月支五行或年支五行或日支五行');
             tiaojian_1 = false;
           } else if (
             dizhilist[shi_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.woxing == nian_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.woxing == ri_zhi.dizhi
           ) {
-            hehuaLog.push("时支刑年月日支");
+            hehuaLog.push('时支刑年月日支');
             tiaojian_1 = false;
           } else if (
             dizhilist[shi_zhi.dizhi]?.chong == yue_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.chong == nian_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.chong == ri_zhi.dizhi
           ) {
-            hehuaLog.push("时支冲年月日支");
+            hehuaLog.push('时支冲年月日支');
             tiaojian_1 = false;
           } else if (
             dizhilist[shi_zhi.dizhi]?.hai == yue_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.hai == nian_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.hai == ri_zhi.dizhi
           ) {
-            hehuaLog.push("时支害年月日支");
+            hehuaLog.push('时支害年月日支');
             tiaojian_1 = false;
           } else {
-            hehuaLog.push("时支不克制月支不刑不冲不害年月日支");
+            hehuaLog.push('时支不克制月支不刑不冲不害年月日支');
             tiaojian_1 = true;
           }
 
           if (tiaojian_1 == true) {
-            hehuaLog.push("地支三会方成功");
+            hehuaLog.push('地支三会方成功');
 
             nian_zhi.wuxing = yue_zhi.sanhuifang.sanhufang_e5;
             nian_zhi.kewo =
@@ -1351,7 +1351,7 @@
 
             return 1;
           } else {
-            hehuaLog.push("地支三会方失败");
+            hehuaLog.push('地支三会方失败');
             return 0;
           }
         } else if (rizhi_sanhui == true) {
@@ -1361,36 +1361,36 @@
             nian_zhi.wuxing == ri_zhi.kewo ||
             nian_zhi.wuxing == shi_zhi.kewo
           ) {
-            hehuaLog.push("年支五行克制月支、日支、时支五行");
+            hehuaLog.push('年支五行克制月支、日支、时支五行');
             tiaojian_1 = false;
           } else if (
             dizhilist[nian_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.woxing == ri_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.woxing == shi_zhi.dizhi
           ) {
-            hehuaLog.push("年支刑日月时支");
+            hehuaLog.push('年支刑日月时支');
             tiaojian_1 = false;
           } else if (
             dizhilist[nian_zhi.dizhi]?.chong == yue_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.chong == ri_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.chong == shi_zhi.dizhi
           ) {
-            hehuaLog.push("年支冲日月时支");
+            hehuaLog.push('年支冲日月时支');
             tiaojian_1 = false;
           } else if (
             dizhilist[nian_zhi.dizhi]?.hai == yue_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.hai == ri_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.hai == shi_zhi.dizhi
           ) {
-            hehuaLog.push("年支害日月时支");
+            hehuaLog.push('年支害日月时支');
             tiaojian_1 = false;
           } else {
-            hehuaLog.push("年支不克制月支不刑不冲不害日月时支");
+            hehuaLog.push('年支不克制月支不刑不冲不害日月时支');
             tiaojian_1 = true;
           }
 
           if (tiaojian_1 == true) {
-            hehuaLog.push("地支三会方成功");
+            hehuaLog.push('地支三会方成功');
 
             shi_zhi.wuxing = ri_zhi.sanhuifang.sanhufang_e5;
             shi_zhi.kewo =
@@ -1436,44 +1436,47 @@
 
             return 1;
           } else {
-            hehuaLog.push("地支三会方失败");
+            hehuaLog.push('地支三会方失败');
             return 0;
           }
         } else {
-          hehuaLog.push("地支三会方组合失败");
+          hehuaLog.push('地支三会方组合失败');
           return 0;
         }
       }
 
       // 地支六合判断
       function dizhi_liuhe() {
-        hehuaLog.push("地支六合判断：");
+        hehuaLog.push('地支六合判断：');
         let yuerihe = false;
         let rishihe = false;
         let nianyuehe = false;
         let yuerihe_jieguo = false;
+        let rishihe_jieguo = false;
+        let nianyuehe_jieguo = false;
+
         // 判断六合组合
         if (yuezhu.branch.group6.name == ri_zhi.dizhi) {
-          hehuaLog.push("月支日支六合组合成功");
+          hehuaLog.push('月支日支六合组合成功');
           yuerihe = true;
         } else {
           if (rizhu.branch.group6.name == shi_zhi.dizhi) {
-            hehuaLog.push("日支时支六合组合成功");
+            hehuaLog.push('日支时支六合组合成功');
             rishihe = true;
           }
           if (yuezhu.branch.group6.name == nian_zhi.dizhi) {
-            hehuaLog.push("月支年支六合组合成功");
+            hehuaLog.push('月支年支六合组合成功');
             nianyuehe = true;
           }
           if (rishihe == false && nianyuehe == false) {
-            hehuaLog.push("六合组合失败");
+            hehuaLog.push('六合组合失败');
             return 0;
           }
         }
 
         // 判断合化条件
         if (yuerihe == true) {
-          hehuaLog.push("月支日支六合合化判断：");
+          hehuaLog.push('月支日支六合合化判断：');
 
           let tiaojian_1 = false;
           let tiaojian_2 = false;
@@ -1490,17 +1493,17 @@
             dizhilist[nian_zhi.dizhi]?.hai == yue_zhi.dizhi ||
             dizhilist[nian_zhi.dizhi]?.hai == ri_zhi.dizhi
           ) {
-            hehuaLog.push("年支刑冲克害月日支及合化后五行");
+            hehuaLog.push('年支刑冲克害月日支及合化后五行');
             if (
               shi_zhi.wuxing == nian_zhi.kewo ||
               dizhilist[shi_zhi.dizhi]?.woxing == nian_zhi.dizhi ||
               dizhilist[shi_zhi.dizhi]?.chong == nian_zhi.dizhi ||
               dizhilist[shi_zhi.dizhi]?.hai == nian_zhi.dizhi
             ) {
-              hehuaLog.push("时支刑冲克害年支，反克制成功");
+              hehuaLog.push('时支刑冲克害年支，反克制成功');
               tiaojian_1 = true;
             } else {
-              hehuaLog.push("时支不刑冲克害年支，反克制失败");
+              hehuaLog.push('时支不刑冲克害年支，反克制失败');
               tiaojian_1 = false;
             }
           } else if (
@@ -1514,27 +1517,27 @@
             dizhilist[shi_zhi.dizhi]?.hai == yue_zhi.dizhi ||
             dizhilist[shi_zhi.dizhi]?.hai == ri_zhi.dizhi
           ) {
-            hehuaLog.push("时支刑冲克害月日支及合化后五行");
+            hehuaLog.push('时支刑冲克害月日支及合化后五行');
             if (
               nian_zhi.wuxing == shi_zhi.kewo ||
               dizhilist[nian_zhi.dizhi]?.woxing == shi_zhi.dizhi ||
               dizhilist[nian_zhi.dizhi]?.chong == shi_zhi.dizhi ||
               dizhilist[nian_zhi.dizhi]?.hai == shi_zhi.dizhi
             ) {
-              hehuaLog.push("年支刑冲克害时支，反克制成功");
+              hehuaLog.push('年支刑冲克害时支，反克制成功');
               tiaojian_1 = true;
             } else {
-              hehuaLog.push("年支不刑冲克害时支，反克制失败");
+              hehuaLog.push('年支不刑冲克害时支，反克制失败');
               tiaojian_1 = false;
             }
           } else {
-            hehuaLog.push("时支与月日支无刑冲克害关系");
+            hehuaLog.push('时支与月日支无刑冲克害关系');
             tiaojian_1 = true;
           }
 
           // 条件2
           if (yuezhu.branch.e5.name == yuezhu.branch.group6E5.name) {
-            hehuaLog.push("月令与月日支合化后五行相同");
+            hehuaLog.push('月令与月日支合化后五行相同');
             tiaojian_2 = true;
           }
 
@@ -1547,7 +1550,7 @@
             yuezhu.branch.group6E5.name == ri_gan.wuxing ||
             yuezhu.branch.group6E5.name == shi_gan.wuxing
           ) {
-            hehuaLog.push("合化后五行与天干五行有相同");
+            hehuaLog.push('合化后五行与天干五行有相同');
             for (var i = 0; i < nian_zhi.canggan.length; i++) {
               if (yuezhu.branch.group6E5.name == nian_zhi.score[i][1]) {
                 countcanggan_1 = i;
@@ -1559,18 +1562,18 @@
               }
             }
             if (countcanggan_1 == 3 && countcanggan_2 == 3) {
-              hehuaLog.push("合化后五行与其他地支藏干没有相同");
+              hehuaLog.push('合化后五行与其他地支藏干没有相同');
               tiaojian_3 = false;
             } else {
               let cangganmeiyoukezhi = true;
-              hehuaLog.push("合化后五行与其他地支藏干有相同");
+              hehuaLog.push('合化后五行与其他地支藏干有相同');
               for (var i = 0; i < nian_zhi.canggan.length; i++) {
                 if (countcanggan_1 != i) {
                   if (
                     yuezhu.branch.group6E5.counteracting().name ==
                     nian_zhi.score[i][1]
                   ) {
-                    hehuaLog.push("年支藏干的五行有克制合化后的");
+                    hehuaLog.push('年支藏干的五行有克制合化后的');
                     tiaojian_3 = false;
                     cangganmeiyoukezhi = false;
                     break;
@@ -1583,7 +1586,7 @@
                     yuezhu.branch.group6E5.counteracting().name ==
                     shi_zhi.score[i][1]
                   ) {
-                    hehuaLog.push("时支藏干的五行有克制合化后的");
+                    hehuaLog.push('时支藏干的五行有克制合化后的');
                     tiaojian_3 = false;
                     cangganmeiyoukezhi = false;
                     break;
@@ -1596,16 +1599,16 @@
                 ri_gan.woke == yuezhu.branch.group6E5.name ||
                 shi_gan.woke == yuezhu.branch.group6E5.name
               ) {
-                hehuaLog.push("天干的五行有克制合化后的五行");
+                hehuaLog.push('天干的五行有克制合化后的五行');
                 tiaojian_3 = false;
               } else if (cangganmeiyoukezhi == true) {
-                hehuaLog.push("合化后五行与其他地支藏干和天干没有被克制关系");
+                hehuaLog.push('合化后五行与其他地支藏干和天干没有被克制关系');
                 tiaojian_3 = true;
               }
             }
           }
           if (tiaojian_1 == true && tiaojian_2 == true && tiaojian_3 == true) {
-            hehuaLog.push("三个条件都成立，合化成功");
+            hehuaLog.push('三个条件都成立，合化成功');
             yuerihe_jieguo = true;
 
             yue_zhi.wuxing = yuezhu.branch.group6E5.name;
@@ -1637,11 +1640,11 @@
           }
         }
         if (yuerihe_jieguo == true) {
-          hehuaLog.push("月支日支六合合化成功");
+          hehuaLog.push('月支日支六合合化成功');
         } else {
           if (rishihe == true) {
-            hehuaLog.push("月支日支六合合化失败");
-            hehuaLog.push("日支时支六合合化判断：");
+            hehuaLog.push('月支日支六合合化失败');
+            hehuaLog.push('日支时支六合合化判断：');
 
             let tiaojian_1 = false;
             let tiaojian_2 = false;
@@ -1659,17 +1662,17 @@
               dizhilist[nian_zhi.dizhi]?.hai == ri_zhi.dizhi ||
               dizhilist[nian_zhi.dizhi]?.hai == shi_zhi.dizhi
             ) {
-              hehuaLog.push("年支刑冲克害日时支及合化后五行");
+              hehuaLog.push('年支刑冲克害日时支及合化后五行');
               if (
                 yue_zhi.wuxing == nian_zhi.kewo ||
                 dizhilist[yue_zhi.dizhi]?.woxing == nian_zhi.dizhi ||
                 dizhilist[yue_zhi.dizhi]?.chong == nian_zhi.dizhi ||
                 dizhilist[yue_zhi.dizhi]?.hai == nian_zhi.dizhi
               ) {
-                hehuaLog.push("月支刑冲克害年支，反克制成功");
+                hehuaLog.push('月支刑冲克害年支，反克制成功');
                 tiaojian_1 = true;
               } else {
-                hehuaLog.push("月支不刑冲克害年支，反克制失败");
+                hehuaLog.push('月支不刑冲克害年支，反克制失败');
                 tiaojian_1 = false;
               }
             } else if (
@@ -1683,27 +1686,27 @@
               dizhilist[yue_zhi.dizhi]?.hai == ri_zhi.dizhi ||
               dizhilist[yue_zhi.dizhi]?.hai == shi_zhi.dizhi
             ) {
-              hehuaLog.push("月支刑冲克害日时支及合化后五行");
+              hehuaLog.push('月支刑冲克害日时支及合化后五行');
               if (
                 nian_zhi.wuxing == yue_zhi.kewo ||
                 dizhilist[nian_zhi.dizhi]?.woxing == yue_zhi.dizhi ||
                 dizhilist[nian_zhi.dizhi]?.chong == yue_zhi.dizhi ||
                 dizhilist[nian_zhi.dizhi]?.hai == yue_zhi.dizhi
               ) {
-                hehuaLog.push("年支刑冲克害月支，反克制成功");
+                hehuaLog.push('年支刑冲克害月支，反克制成功');
                 tiaojian_1 = true;
               } else {
-                hehuaLog.push("年支不刑冲克害月支，反克制失败");
+                hehuaLog.push('年支不刑冲克害月支，反克制失败');
                 tiaojian_1 = false;
               }
             } else {
-              hehuaLog.push("日时支与月日支无刑冲克害关系");
+              hehuaLog.push('日时支与月日支无刑冲克害关系');
               tiaojian_1 = true;
             }
 
             // 条件2
             if (yuezhu.branch.e5.name == rizhu.branch.group6E5.name) {
-              hehuaLog.push("月令与日时支合化后五行相同");
+              hehuaLog.push('月令与日时支合化后五行相同');
               tiaojian_2 = true;
             }
 
@@ -1716,7 +1719,7 @@
               rizhu.branch.group6E5.name == ri_gan.wuxing ||
               rizhu.branch.group6E5.name == shi_gan.wuxing
             ) {
-              hehuaLog.push("合化后五行与天干五行有相同");
+              hehuaLog.push('合化后五行与天干五行有相同');
               for (var i = 0; i < nian_zhi.canggan.length; i++) {
                 if (rizhu.branch.group6E5.name == nian_zhi.score[i][1]) {
                   countcanggan_1 = i;
@@ -1728,18 +1731,18 @@
                 }
               }
               if (countcanggan_1 == 3 && countcanggan_2 == 3) {
-                hehuaLog.push("合化后五行与其他地支藏干无相同");
+                hehuaLog.push('合化后五行与其他地支藏干无相同');
                 tiaojian_3 = false;
               } else {
                 let cangganmeiyoukezhi = true;
-                hehuaLog.push("合化后五行与其他地支藏干有相同");
+                hehuaLog.push('合化后五行与其他地支藏干有相同');
                 for (var i = 0; i < nian_zhi.canggan.length; i++) {
                   if (countcanggan_1 != i) {
                     if (
                       rizhu.branch.group6E5.counteracting().name ==
                       nian_zhi.score[i][1]
                     ) {
-                      hehuaLog.push("年支藏干的五行有克制合化后的");
+                      hehuaLog.push('年支藏干的五行有克制合化后的');
                       tiaojian_3 = false;
                       cangganmeiyoukezhi = false;
                       break;
@@ -1752,7 +1755,7 @@
                       rizhu.branch.group6E5.counteracting().name ==
                       yue_zhi.score[i][1]
                     ) {
-                      hehuaLog.push("月支藏干的五行有克制合化后的");
+                      hehuaLog.push('月支藏干的五行有克制合化后的');
                       tiaojian_3 = false;
                       cangganmeiyoukezhi = false;
                       break;
@@ -1765,10 +1768,10 @@
                   ri_gan.woke == rizhu.branch.group6E5.name ||
                   shi_gan.woke == rizhu.branch.group6E5.name
                 ) {
-                  hehuaLog.push("天干的五行有克制合化后的五行");
+                  hehuaLog.push('天干的五行有克制合化后的五行');
                   tiaojian_3 = false;
                 } else if (cangganmeiyoukezhi == true) {
-                  hehuaLog.push("合化后五行与其他地支藏干和天干无克制关系");
+                  hehuaLog.push('合化后五行与其他地支藏干和天干无克制关系');
                   tiaojian_3 = true;
                 }
               }
@@ -1778,7 +1781,7 @@
               tiaojian_2 == true &&
               tiaojian_3 == true
             ) {
-              hehuaLog.push("日支时支六合合化成功");
+              hehuaLog.push('日支时支六合合化成功');
 
               let rishihe_jieguo = true;
 
@@ -1810,8 +1813,8 @@
             }
           }
           if (nianyuehe == true) {
-            hehuaLog.push("月支日支六合合化失败");
-            hehuaLog.push("年支月支六合合化判断：");
+            hehuaLog.push('月支日支六合合化失败');
+            hehuaLog.push('年支月支六合合化判断：');
 
             let tiaojian_1 = false;
             let tiaojian_2 = false;
@@ -1829,17 +1832,17 @@
               dizhilist[ri_zhi.dizhi]?.hai == yue_zhi.dizhi ||
               dizhilist[ri_zhi.dizhi]?.hai == nian_zhi.dizhi
             ) {
-              hehuaLog.push("日支刑冲克害日时支及合化后五行");
+              hehuaLog.push('日支刑冲克害日时支及合化后五行');
               if (
                 shi_zhi.wuxing == ri_zhi.kewo ||
                 dizhilist[shi_zhi.dizhi]?.woxing == ri_zhi.dizhi ||
                 dizhilist[shi_zhi.dizhi]?.chong == ri_zhi.dizhi ||
                 dizhilist[shi_zhi.dizhi]?.hai == ri_zhi.dizhi
               ) {
-                hehuaLog.push("时支刑冲克害日支，反克制成功");
+                hehuaLog.push('时支刑冲克害日支，反克制成功');
                 tiaojian_1 = true;
               } else {
-                hehuaLog.push("时支不刑冲克害日支，反克制失败");
+                hehuaLog.push('时支不刑冲克害日支，反克制失败');
                 tiaojian_1 = false;
               }
             } else if (
@@ -1853,27 +1856,27 @@
               dizhilist[shi_zhi.dizhi]?.hai == nian_zhi.dizhi ||
               dizhilist[shi_zhi.dizhi]?.hai == shi_zhi.dizhi
             ) {
-              hehuaLog.push("月支刑冲克害日时支及合化后五行");
+              hehuaLog.push('月支刑冲克害日时支及合化后五行');
               if (
                 ri_zhi.wuxing == shi_zhi.kewo ||
                 dizhilist[ri_zhi.dizhi]?.woxing == shi_zhi.dizhi ||
                 dizhilist[ri_zhi.dizhi]?.chong == shi_zhi.dizhi ||
                 dizhilist[ri_zhi.dizhi]?.hai == shi_zhi.dizhi
               ) {
-                hehuaLog.push("日支刑冲克害时支，反克制成功");
+                hehuaLog.push('日支刑冲克害时支，反克制成功');
                 tiaojian_1 = true;
               } else {
-                hehuaLog.push("日支不刑冲克害时支，反克制失败");
+                hehuaLog.push('日支不刑冲克害时支，反克制失败');
                 tiaojian_1 = false;
               }
             } else {
-              hehuaLog.push("日时支与月日支无刑冲克害关系");
+              hehuaLog.push('日时支与月日支无刑冲克害关系');
               tiaojian_1 = true;
             }
 
             // 条件2
             if (yuezhu.branch.e5.name == yuezhu.branch.group6E5.name) {
-              hehuaLog.push("月令与日时支合化后五行相同");
+              hehuaLog.push('月令与日时支合化后五行相同');
               tiaojian_2 = true;
             }
 
@@ -1886,7 +1889,7 @@
               yuezhu.branch.group6E5.name == ri_gan.wuxing ||
               yuezhu.branch.group6E5.name == shi_gan.wuxing
             ) {
-              hehuaLog.push("合化后五行与天干五行有相同");
+              hehuaLog.push('合化后五行与天干五行有相同');
               for (var i = 0; i < ri_zhi.canggan.length; i++) {
                 if (yuezhu.branch.group6E5.name == ri_zhi.score[i][1]) {
                   countcanggan_1 = i;
@@ -1898,18 +1901,18 @@
                 }
               }
               if (countcanggan_1 == 3 && countcanggan_2 == 3) {
-                hehuaLog.push("合化后五行与其他地支藏干无相同");
+                hehuaLog.push('合化后五行与其他地支藏干无相同');
                 tiaojian_3 = false;
               } else {
                 let cangganmeiyoukezhi = true;
-                hehuaLog.push("合化后五行与其他地支藏干有相同");
+                hehuaLog.push('合化后五行与其他地支藏干有相同');
                 for (var i = 0; i < ri_zhi.canggan.length; i++) {
                   if (countcanggan_1 != i) {
                     if (
                       yuezhu.branch.group6E5.counteracting().name ==
                       ri_zhi.score[i][1]
                     ) {
-                      hehuaLog.push("年支藏干的五行有克制合化后的");
+                      hehuaLog.push('年支藏干的五行有克制合化后的');
                       tiaojian_3 = false;
                       cangganmeiyoukezhi = false;
                       break;
@@ -1922,7 +1925,7 @@
                       yuezhu.branch.group6E5.counteracting().name ==
                       shi_zhi.score[i][1]
                     ) {
-                      hehuaLog.push("月支藏干的五行有克制合化后的");
+                      hehuaLog.push('月支藏干的五行有克制合化后的');
                       tiaojian_3 = false;
                       cangganmeiyoukezhi = false;
                       break;
@@ -1935,10 +1938,10 @@
                   ri_gan.woke == yuezhu.branch.group6E5.name ||
                   shi_gan.woke == yuezhu.branch.group6E5.name
                 ) {
-                  hehuaLog.push("天干的五行有克制合化后的五行");
+                  hehuaLog.push('天干的五行有克制合化后的五行');
                   tiaojian_3 = false;
                 } else if (cangganmeiyoukezhi == true) {
-                  hehuaLog.push("合化后五行与其他地支藏干和天干无克制关系");
+                  hehuaLog.push('合化后五行与其他地支藏干和天干无克制关系');
                   tiaojian_3 = true;
                 }
               }
@@ -1949,7 +1952,7 @@
               tiaojian_2 == true &&
               tiaojian_3 == true
             ) {
-              hehuaLog.push("年支月支六合合化成功");
+              hehuaLog.push('年支月支六合合化成功');
 
               let nianyuehe_jieguo = true;
 
@@ -2070,10 +2073,10 @@
           else {
             // 杂气格判断
             if (
-              yue_zhi.dizhi == "辰" ||
-              yue_zhi.dizhi == "戌" ||
-              yue_zhi.dizhi == "丑" ||
-              yue_zhi.dizhi == "未"
+              yue_zhi.dizhi == '辰' ||
+              yue_zhi.dizhi == '戌' ||
+              yue_zhi.dizhi == '丑' ||
+              yue_zhi.dizhi == '未'
             ) {
               zaqi = 2;
             } else {
@@ -2159,19 +2162,19 @@
         } else {
           // 已合化的情况
           switch (ri_gan.wuxing) {
-            case "木":
+            case '木':
               geju2 = 1;
               break;
-            case "火":
+            case '火':
               geju2 = 2;
               break;
-            case "土":
+            case '土':
               geju2 = 3;
               break;
-            case "金":
+            case '金':
               geju2 = 4;
               break;
-            case "水":
+            case '水':
               geju2 = 5;
               break;
             default:
@@ -2194,21 +2197,21 @@
       // 显示结果
       function displayResults(gender) {
         // 八字信息
-        document.getElementById("gender-info").textContent = gender;
-        document.getElementById("nianzhu-info").textContent = nianzhu.name;
-        document.getElementById("yuezhu-info").textContent = yuezhu.name;
-        document.getElementById("rizhu-info").textContent = rizhu.name;
-        document.getElementById("shizhu-info").textContent = shizhu.name;
-        document.getElementById("rizhu1-info").textContent = rizhu1.name;
-        document.getElementById("yueling-info").textContent =
+        document.getElementById('gender-info').textContent = gender;
+        document.getElementById('nianzhu-info').textContent = nianzhu.name;
+        document.getElementById('yuezhu-info').textContent = yuezhu.name;
+        document.getElementById('rizhu-info').textContent = rizhu.name;
+        document.getElementById('shizhu-info').textContent = shizhu.name;
+        document.getElementById('rizhu1-info').textContent = rizhu1.name;
+        document.getElementById('yueling-info').textContent =
           yuezhu.branch.name;
 
         // 合化情况
-        const hehuaInfo = document.getElementById("hehua-info");
+        const hehuaInfo = document.getElementById('hehua-info');
         if (hehuaLog.length > 0) {
           let hasHehua = false;
           for (let log of hehuaLog) {
-            if (log.includes("成功")) {
+            if (log.includes('成功')) {
               hasHehua = true;
               break;
             }
@@ -2216,22 +2219,22 @@
 
           if (hasHehua) {
             hehuaInfo.innerHTML =
-              "<p>存在合化情况，详细信息：</p><ul>" +
-              hehuaLog.map((log) => `<li>${log}</li>`).join("") +
-              "</ul>";
+              '<p>存在合化情况，详细信息：</p><ul>' +
+              hehuaLog.map((log) => `<li>${log}</li>`).join('') +
+              '</ul>';
           } else {
-            hehuaInfo.innerHTML = "<p>无合化情况</p>";
+            hehuaInfo.innerHTML = '<p>无合化情况</p>';
           }
         } else {
-          hehuaInfo.innerHTML = "<p>无合化情况</p>";
+          hehuaInfo.innerHTML = '<p>无合化情况</p>';
         }
 
         // 五行分数
-        const wuxingGrid = document.getElementById("wuxing-grid");
-        wuxingGrid.innerHTML = "";
+        const wuxingGrid = document.getElementById('wuxing-grid');
+        wuxingGrid.innerHTML = '';
         for (let element in wuxing_score) {
-          const item = document.createElement("div");
-          item.className = "wu-xing-item";
+          const item = document.createElement('div');
+          item.className = 'wu-xing-item';
           item.innerHTML = `
                     <div class="wu-xing-name">${element}</div>
                     <div class="wu-xing-score">${wuxing_score[element].score}</div>
@@ -2245,134 +2248,134 @@
           wuxing_score[ri_gan.shengwo].score;
         const yidang_score = 610 - tongdang_score;
 
-        document.getElementById("tongdang-elements").textContent =
+        document.getElementById('tongdang-elements').textContent =
           ri_gan.wuxing + ri_gan.shengwo;
-        document.getElementById("tongdang-score").textContent = tongdang_score;
-        document.getElementById("yidang-elements").textContent =
+        document.getElementById('tongdang-score').textContent = tongdang_score;
+        document.getElementById('yidang-elements').textContent =
           ri_gan.wosheng + ri_gan.woke + ri_gan.kewo;
-        document.getElementById("yidang-score").textContent = yidang_score;
+        document.getElementById('yidang-score').textContent = yidang_score;
 
-        let shenqiangResult = "";
+        let shenqiangResult = '';
         if (tongdang_score <= 80) {
-          shenqiangResult = "极弱";
+          shenqiangResult = '极弱';
         } else if (tongdang_score > 80 && tongdang_score <= 180) {
-          shenqiangResult = "身弱";
+          shenqiangResult = '身弱';
         } else if (tongdang_score > 180 && tongdang_score <= 305) {
-          shenqiangResult = "偏弱";
+          shenqiangResult = '偏弱';
         } else if (tongdang_score > 305 && tongdang_score <= 440) {
-          shenqiangResult = "偏强";
+          shenqiangResult = '偏强';
         } else if (tongdang_score > 440 && tongdang_score <= 570) {
-          shenqiangResult = "身强";
+          shenqiangResult = '身强';
         } else if (tongdang_score > 570) {
-          shenqiangResult = "极强";
+          shenqiangResult = '极强';
         }
-        document.getElementById("shenqiang-result").textContent =
+        document.getElementById('shenqiang-result').textContent =
           shenqiangResult;
 
         // 格局分析
-        let gejuResult = "";
+        let gejuResult = '';
         let baseGeju = geju; // 基础格局值
-        let prefix = "";
+        let prefix = '';
 
         // 解析格局中的潜在和杂气信息
         if (geju > 19) {
           // 检查是否包含杂气信息
           if (geju % 2 === 0) {
-            prefix += "杂气";
+            prefix += '杂气';
             baseGeju = geju / 2;
           }
 
           // 检查是否包含潜在信息
           if (baseGeju > 19 && baseGeju % 4 === 0) {
-            prefix += "潜在";
+            prefix += '潜在';
             baseGeju = baseGeju / 4;
           }
         }
 
         switch (baseGeju) {
           case 1:
-            gejuResult = prefix + "化木格";
+            gejuResult = prefix + '化木格';
             break;
           case 2:
-            gejuResult = prefix + "化火格";
+            gejuResult = prefix + '化火格';
             break;
           case 3:
-            gejuResult = prefix + "化土格";
+            gejuResult = prefix + '化土格';
             break;
           case 4:
-            gejuResult = prefix + "化金格";
+            gejuResult = prefix + '化金格';
             break;
           case 5:
-            gejuResult = prefix + "化水格";
+            gejuResult = prefix + '化水格';
             break;
           case 6:
-            gejuResult = prefix + "专旺格";
+            gejuResult = prefix + '专旺格';
             break;
           case 7:
-            gejuResult = prefix + "从财格";
+            gejuResult = prefix + '从财格';
             break;
           case 8:
-            gejuResult = prefix + "从杀格";
+            gejuResult = prefix + '从杀格';
             break;
           case 9:
-            gejuResult = prefix + "从儿格";
+            gejuResult = prefix + '从儿格';
             break;
           case 10:
-            gejuResult = prefix + "建禄格";
+            gejuResult = prefix + '建禄格';
             break;
           case 11:
-            gejuResult = prefix + "羊刃格";
+            gejuResult = prefix + '羊刃格';
             break;
           case 12:
-            gejuResult = prefix + "正印格";
+            gejuResult = prefix + '正印格';
             break;
           case 13:
-            gejuResult = prefix + "偏印格";
+            gejuResult = prefix + '偏印格';
             break;
           case 14:
-            gejuResult = prefix + "食神格";
+            gejuResult = prefix + '食神格';
             break;
           case 15:
-            gejuResult = prefix + "伤官格";
+            gejuResult = prefix + '伤官格';
             break;
           case 16:
-            gejuResult = prefix + "正财格";
+            gejuResult = prefix + '正财格';
             break;
           case 17:
-            gejuResult = prefix + "偏财格";
+            gejuResult = prefix + '偏财格';
             break;
           case 18:
-            gejuResult = prefix + "正官格";
+            gejuResult = prefix + '正官格';
             break;
           case 19:
-            gejuResult = prefix + "七杀格";
+            gejuResult = prefix + '七杀格';
             break;
           default:
-            gejuResult = "未知格局";
+            gejuResult = '未知格局';
         }
-        document.getElementById("geju-result").textContent = gejuResult;
+        document.getElementById('geju-result').textContent = gejuResult;
 
         // 喜忌神判定
-        document.getElementById("xi-info").textContent = xi;
-        document.getElementById("ji-info").textContent = ji;
+        document.getElementById('xi-info').textContent = xi;
+        document.getElementById('ji-info').textContent = ji;
 
         // 显示结果区域
-        document.getElementById("result").style.display = "block";
+        document.getElementById('result').style.display = 'block';
       }
 
       // 初始化事件监听
-      document.addEventListener("DOMContentLoaded", function () {
-        const calculateBtn = document.getElementById("calculateBtn");
-        calculateBtn.addEventListener("click", function () {
-          const datetime = document.getElementById("datetime").value;
-          const gender = document.getElementById("gender").value;
+      document.addEventListener('DOMContentLoaded', function () {
+        const calculateBtn = document.getElementById('calculateBtn');
+        calculateBtn.addEventListener('click', function () {
+          const datetime = document.getElementById('datetime').value;
+          const gender = document.getElementById('gender').value;
 
           if (datetime) {
             // 将 datetime-local 转换为可接受的格式
-            const dateTimeStr = datetime.replace("T", " ");
+            const dateTimeStr = datetime.replace('T', ' ');
             jisuan(dateTimeStr, gender);
           } else {
-            alert("请输入出生时间");
+            alert('请输入出生时间');
           }
         });
       });
